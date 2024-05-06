@@ -1,4 +1,4 @@
-package;
+package game.substates;
 
 import Controls.Control;
 import flixel.FlxG;
@@ -9,6 +9,7 @@ import flixel.group.FlxGroup.FlxTypedGroup;
 import flixel.input.keyboard.FlxKey;
 import flixel.system.FlxSound;
 import flixel.util.FlxColor;
+import game.states.TitleState;
 
 class PauseSubState extends MusicBeatSubstate
 {
@@ -81,7 +82,7 @@ class PauseSubState extends MusicBeatSubstate
 				case "Restart Song":
 					FlxG.resetState();
 				case "Exit to menu":
-					FlxG.switchState(new MainMenuState());
+					FlxG.switchState(new game.states.MainMenuState());
 			}
 		}
 

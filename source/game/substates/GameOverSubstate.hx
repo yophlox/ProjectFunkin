@@ -1,4 +1,4 @@
-package;
+package game.substates;
 
 import flixel.FlxG;
 import flixel.FlxObject;
@@ -6,6 +6,8 @@ import flixel.FlxSubState;
 import flixel.math.FlxPoint;
 import flixel.util.FlxColor;
 import flixel.util.FlxTimer;
+import game.states.TitleState;
+import game.states.PlayState;
 
 class GameOverSubstate extends MusicBeatSubstate
 {
@@ -65,9 +67,9 @@ class GameOverSubstate extends MusicBeatSubstate
 			FlxG.sound.music.stop();
 
 			if (PlayState.isStoryMode)
-				FlxG.switchState(new StoryMenuState());
+				FlxG.switchState(new game.states.StoryMenuState());
 			else
-				FlxG.switchState(new FreeplayState());
+				FlxG.switchState(new game.states.FreeplayState());
 		}
 
 		if (bf.animation.curAnim.name == 'firstDeath' && bf.animation.curAnim.curFrame == 12)
@@ -107,7 +109,7 @@ class GameOverSubstate extends MusicBeatSubstate
 			{
 				FlxG.camera.fade(FlxColor.BLACK, 2, false, function()
 				{
-					FlxG.switchState(new PlayState());
+					FlxG.switchState(new game.states.PlayState());
 				});
 			});
 		}

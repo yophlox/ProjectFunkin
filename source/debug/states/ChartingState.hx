@@ -1,4 +1,4 @@
-package;
+package debug.states;
 
 import Section.SwagSection;
 import Song.SwagSong;
@@ -33,6 +33,8 @@ import openfl.events.IOErrorEvent;
 import openfl.media.Sound;
 import openfl.net.FileReference;
 import openfl.utils.ByteArray;
+import game.states.TitleState;
+import game.states.PlayState;
 
 using StringTools;
 

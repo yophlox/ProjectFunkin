@@ -1,4 +1,4 @@
-package;
+package game.states;
 
 import flixel.FlxG;
 import flixel.FlxSprite;
@@ -12,6 +12,8 @@ import flixel.tweens.FlxTween;
 import flixel.util.FlxColor;
 import flixel.util.FlxTimer;
 import lime.net.curl.CURLCode;
+import game.states.TitleState;
+import game.states.PlayState;
 
 using StringTools;
 
@@ -273,7 +275,7 @@ class StoryMenuState extends MusicBeatState
 		{
 			FlxG.sound.play('assets/sounds/cancelMenu' + TitleState.soundExt);
 			movedBack = true;
-			FlxG.switchState(new MainMenuState());
+			FlxG.switchState(new game.states.MainMenuState());
 		}
 
 		super.update(elapsed);

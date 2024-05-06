@@ -1,4 +1,4 @@
-package;
+package game.states;
 
 import flixel.FlxG;
 import flixel.FlxSprite;
@@ -22,6 +22,7 @@ import flixel.util.FlxColor;
 import flixel.util.FlxTimer;
 import lime.app.Application;
 import openfl.Assets;
+import game.states.TitleState;
 using StringTools;
 
 class TitleState extends MusicBeatState
@@ -72,9 +73,9 @@ class TitleState extends MusicBeatState
 		}
 
 		#if FREEPLAY
-		FlxG.switchState(new FreeplayState());
+		FlxG.switchState(new game.states.FreeplayState());
 		#elseif CHARTING
-		FlxG.switchState(new ChartingState());
+		FlxG.switchState(new game.states.ChartingState());
 		#else
 		new FlxTimer().start(1, function(tmr:FlxTimer)
 		{
@@ -251,7 +252,7 @@ class TitleState extends MusicBeatState
 			new FlxTimer().start(2, function(tmr:FlxTimer)
 			{
 				var version:String = "v" + Application.current.meta.get('version');
-				FlxG.switchState(new MainMenuState());
+				FlxG.switchState(new game.states.MainMenuState());
 			});
 			// FlxG.sound.play('assets/music/titleShoot' + TitleState.soundExt, 0.7);
 		}

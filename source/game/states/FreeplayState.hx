@@ -1,4 +1,4 @@
-package;
+package game.states;
 
 import flash.text.TextField;
 import flixel.FlxG;
@@ -9,6 +9,8 @@ import flixel.math.FlxMath;
 import flixel.text.FlxText;
 import flixel.util.FlxColor;
 import lime.utils.Assets;
+import game.states.TitleState;
+import game.states.PlayState;
 
 using StringTools;
 
@@ -186,7 +188,7 @@ class FreeplayState extends MusicBeatState
 
 		if (controls.BACK)
 		{
-			FlxG.switchState(new MainMenuState());
+			FlxG.switchState(new game.states.MainMenuState());
 		}
 
 		if (accepted)

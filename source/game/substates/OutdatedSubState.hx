@@ -1,4 +1,4 @@
-package;
+package game.substates;
 
 import flixel.FlxG;
 import flixel.FlxSprite;
@@ -33,12 +33,12 @@ class OutdatedSubState extends MusicBeatState
 	{
 		if (controls.ACCEPT)
 		{
-			FlxG.openURL("https://ninja-muffin24.itch.io/funkin");
+			FlxG.openURL("https://github.com/tyindev/Indev-Engine");
 		}
 		if (controls.BACK)
 		{
 			leftState = true;
-			FlxG.switchState(new MainMenuState());
+			FlxG.switchState(new game.states.MainMenuState());
 		}
 		super.update(elapsed);
 	}

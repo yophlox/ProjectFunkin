@@ -1,4 +1,4 @@
-package;
+package game.states;
 
 import Section.SwagSection;
 import Song.SwagSong;
@@ -38,6 +38,7 @@ import lime.utils.Assets;
 import openfl.display.BlendMode;
 import openfl.display.StageQuality;
 import openfl.filters.ShaderFilter;
+import game.states.TitleState;
 
 using StringTools;
 
@@ -1272,12 +1273,12 @@ class PlayState extends MusicBeatState
 			persistentDraw = true;
 			paused = true;
 
-			openSubState(new PauseSubState(boyfriend.getScreenPosition().x, boyfriend.getScreenPosition().y));
+			openSubState(new game.substates.PauseSubState(boyfriend.getScreenPosition().x, boyfriend.getScreenPosition().y));
 		}
 
 		if (FlxG.keys.justPressed.SEVEN)
 		{
-			FlxG.switchState(new ChartingState());
+			FlxG.switchState(new debug.states.ChartingState());
 		}
 
 		// FlxG.watch.addQuick('VOL', vocals.amplitudeLeft);
@@ -1307,13 +1308,8 @@ class PlayState extends MusicBeatState
 		else
 			iconP2.animation.curAnim.curFrame = 0;
 
-		/* if (FlxG.keys.justPressed.NINE)
-			FlxG.switchState(new Charting()); */
-
-		#if debug
 		if (FlxG.keys.justPressed.EIGHT)
-			FlxG.switchState(new AnimationDebug(SONG.player2));
-		#end
+			FlxG.switchState(new debug.states.AnimationDebug(SONG.player2));
 
 		if (startingSong)
 		{
@@ -1428,8 +1424,7 @@ class PlayState extends MusicBeatState
 				case 112:
 					gfSpeed = 1;
 				case 163:
-					// FlxG.sound.music.stop();
-					// FlxG.switchState(new TitleState());
+					// nun
 			}
 		}
 
@@ -1439,8 +1434,6 @@ class PlayState extends MusicBeatState
 			{
 				case 128, 129, 130:
 					vocals.volume = 0;
-					// FlxG.sound.music.stop();
-					// FlxG.switchState(new PlayState());
 			}
 		}
 		// better streaming of shit
@@ -1469,17 +1462,7 @@ class PlayState extends MusicBeatState
 
 			vocals.stop();
 			FlxG.sound.music.stop();
-
-			// 1 / 1000 chance for Gitaroo Man easter egg
-			if (FlxG.random.bool(0.1))
-			{
-				// gitaroo man easter egg
-				FlxG.switchState(new GitarooPause());
-			}
-			else
-				openSubState(new GameOverSubstate(boyfriend.getScreenPosition().x, boyfriend.getScreenPosition().y));
-
-			// FlxG.switchState(new GameOverState(boyfriend.getScreenPosition().x, boyfriend.getScreenPosition().y));
+			openSubState(new game.substates.GameOverSubstate(boyfriend.getScreenPosition().x, boyfriend.getScreenPosition().y));
 		}
 
 		if (unspawnNotes[0] != null)
@@ -1622,7 +1605,7 @@ class PlayState extends MusicBeatState
 				transIn = FlxTransitionableState.defaultTransIn;
 				transOut = FlxTransitionableState.defaultTransOut;
 
-				FlxG.switchState(new StoryMenuState());
+				FlxG.switchState(new game.states.StoryMenuState());
 
 				// if ()
 				StoryMenuState.weekUnlocked[Std.int(Math.min(storyWeek + 1, StoryMenuState.weekUnlocked.length - 1))] = true;
@@ -1666,13 +1649,13 @@ class PlayState extends MusicBeatState
 				PlayState.SONG = Song.loadFromJson(PlayState.storyPlaylist[0].toLowerCase() + difficulty, PlayState.storyPlaylist[0]);
 				FlxG.sound.music.stop();
 
-				FlxG.switchState(new PlayState());
+				FlxG.switchState(new game.states.PlayState());
 			}
 		}
 		else
 		{
 			trace('WENT BACK TO FREEPLAY??');
-			FlxG.switchState(new FreeplayState());
+			FlxG.switchState(new game.states.FreeplayState());
 		}
 	}
 

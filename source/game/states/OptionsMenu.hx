@@ -1,4 +1,4 @@
-package;
+package game.states;
 
 import Controls.Control;
 import flash.text.TextField;
@@ -11,7 +11,7 @@ import flixel.math.FlxMath;
 import flixel.text.FlxText;
 import flixel.util.FlxColor;
 import lime.utils.Assets;
-
+import game.states.TitleState;
 class OptionsMenu extends MusicBeatState
 {
 	var selector:FlxText;
@@ -64,7 +64,7 @@ class OptionsMenu extends MusicBeatState
 		else
 		{
 			if (controls.BACK)
-				FlxG.switchState(new MainMenuState());
+				FlxG.switchState(new game.states.MainMenuState());
 			if (controls.UP_P)
 				changeSelection(-1);
 			if (controls.DOWN_P)

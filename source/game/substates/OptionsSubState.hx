@@ -1,4 +1,4 @@
-package;
+package game.substates;
 
 class OptionsSubState extends MusicBeatSubstate
 {

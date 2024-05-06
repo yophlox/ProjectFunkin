@@ -1,4 +1,4 @@
-package;
+package debug.states;
 
 import flixel.FlxG;
 import flixel.FlxObject;
@@ -8,6 +8,8 @@ import flixel.addons.display.FlxGridOverlay;
 import flixel.group.FlxGroup.FlxTypedGroup;
 import flixel.text.FlxText;
 import flixel.util.FlxColor;
+import game.states.TitleState;
+import game.states.PlayState;
 
 /**
 	*DEBUG MODE

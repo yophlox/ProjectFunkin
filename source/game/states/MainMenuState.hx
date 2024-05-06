@@ -1,4 +1,4 @@
-package;
+package game.states;
 
 import flixel.FlxG;
 import flixel.FlxObject;
@@ -12,21 +12,15 @@ import flixel.tweens.FlxEase;
 import flixel.tweens.FlxTween;
 import flixel.util.FlxColor;
 import lime.app.Application;
+import game.states.TitleState;
 
 using StringTools;
 
 class MainMenuState extends MusicBeatState
 {
 	var curSelected:Int = 0;
-
 	var menuItems:FlxTypedGroup<FlxSprite>;
-
-	#if !switch
-	var optionShit:Array<String> = ['story mode', 'freeplay', 'donate'];
-	#else
-	var optionShit:Array<String> = ['story mode', 'freeplay'];
-	#end
-
+	var optionShit:Array<String> = ['story mode', 'freeplay', 'options'];
 	var magenta:FlxSprite;
 	var camFollow:FlxObject;
 
@@ -131,11 +125,7 @@ class MainMenuState extends MusicBeatState
 			{
 				if (optionShit[curSelected] == 'donate')
 				{
-					#if linux
-					Sys.command('/usr/bin/xdg-open', ["https://ninja-muffin24.itch.io/funkin", "&"]);
-					#else
-					FlxG.openURL('https://ninja-muffin24.itch.io/funkin');
-					#end
+					// nun
 				}
 				else
 				{
@@ -165,15 +155,14 @@ class MainMenuState extends MusicBeatState
 								switch (daChoice)
 								{
 									case 'story mode':
-										FlxG.switchState(new StoryMenuState());
+										FlxG.switchState(new game.states.StoryMenuState());
 										trace("Story Menu Selected");
 									case 'freeplay':
-										FlxG.switchState(new FreeplayState());
-
+										FlxG.switchState(new game.states.FreeplayState());
 										trace("Freeplay Menu Selected");
-
 									case 'options':
-										FlxG.switchState(new OptionsMenu());
+										FlxG.switchState(new game.states.OptionsMenu());
+										trace("Options Menu Selected");
 								}
 							});
 						}
