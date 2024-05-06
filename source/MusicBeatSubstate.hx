@@ -11,12 +11,24 @@ class MusicBeatSubstate extends FlxSubState
 		super();
 	}
 
+	private var lastBeat:Float = 0;
+	private var lastStep:Float = 0;
+
 	private var curStep:Int = 0;
 	private var curBeat:Int = 0;
 	private var controls(get, never):Controls;
 
 	inline function get_controls():Controls
 		return PlayerSettings.player1.controls;
+
+	override function create()
+	{
+		#if (!web)
+		TitleState.soundExt = '.ogg';
+		#end
+
+		super.create();
+	}
 
 	override function update(elapsed:Float)
 	{
@@ -26,7 +38,7 @@ class MusicBeatSubstate extends FlxSubState
 		updateCurStep();
 		curBeat = Math.floor(curStep / 4);
 
-		if (oldStep != curStep && curStep >= 0)
+		if (oldStep != curStep && curStep > 0)
 			stepHit();
 
 

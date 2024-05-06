@@ -1,19 +1,12 @@
 package;
 
-import flixel.FlxG;
 import flixel.FlxSprite;
 import flixel.graphics.frames.FlxAtlasFrames;
 import flixel.math.FlxMath;
 import flixel.util.FlxColor;
-import flixel.util.FlxTimer;
-import shaderslmfao.ColorSwap;
-import ui.PreferencesMenu;
+import polymod.format.ParseRules.TargetSignatureElement;
 
 using StringTools;
-
-#if polymod
-import polymod.format.ParseRules.TargetSignatureElement;
-#end
 
 class Note extends FlxSprite
 {
@@ -26,15 +19,9 @@ class Note extends FlxSprite
 	public var wasGoodHit:Bool = false;
 	public var prevNote:Note;
 
-	private var willMiss:Bool = false;
-
-	public var altNote:Bool = false;
-	public var invisNote:Bool = false;
-
 	public var sustainLength:Float = 0;
 	public var isSustainNote:Bool = false;
 
-	public var colorSwap:ColorSwap;
 	public var noteScore:Float = 1;
 
 	public static var swagWidth:Float = 160 * 0.7;
@@ -42,8 +29,6 @@ class Note extends FlxSprite
 	public static var GREEN_NOTE:Int = 2;
 	public static var BLUE_NOTE:Int = 1;
 	public static var RED_NOTE:Int = 3;
-
-	public static var arrowColors:Array<Float> = [1, 1, 1, 1];
 
 	public function new(strumTime:Float, noteData:Int, ?prevNote:Note, ?sustainNote:Bool = false)
 	{
@@ -67,7 +52,7 @@ class Note extends FlxSprite
 		switch (daStage)
 		{
 			case 'school' | 'schoolEvil':
-				loadGraphic(Paths.image('weeb/pixelUI/arrows-pixels'), true, 17, 17);
+				loadGraphic('assets/images/weeb/pixelUI/arrows-pixels.png', true, 17, 17);
 
 				animation.add('greenScroll', [6]);
 				animation.add('redScroll', [7]);
@@ -76,7 +61,7 @@ class Note extends FlxSprite
 
 				if (isSustainNote)
 				{
-					loadGraphic(Paths.image('weeb/pixelUI/arrowEnds'), true, 7, 6);
+					loadGraphic('assets/images/weeb/pixelUI/arrowEnds.png', true, 7, 6);
 
 					animation.add('purpleholdend', [4]);
 					animation.add('greenholdend', [6]);
@@ -93,12 +78,12 @@ class Note extends FlxSprite
 				updateHitbox();
 
 			default:
-				frames = Paths.getSparrowAtlas('NOTE_assets');
+				frames = FlxAtlasFrames.fromSparrow('assets/images/NOTE_assets.png', 'assets/images/NOTE_assets.xml');
 
-				animation.addByPrefix('greenScroll', 'green instance');
-				animation.addByPrefix('redScroll', 'red instance');
-				animation.addByPrefix('blueScroll', 'blue instance');
-				animation.addByPrefix('purpleScroll', 'purple instance');
+				animation.addByPrefix('greenScroll', 'green0');
+				animation.addByPrefix('redScroll', 'red0');
+				animation.addByPrefix('blueScroll', 'blue0');
+				animation.addByPrefix('purpleScroll', 'purple0');
 
 				animation.addByPrefix('purpleholdend', 'pruple end hold');
 				animation.addByPrefix('greenholdend', 'green hold end');
@@ -113,18 +98,7 @@ class Note extends FlxSprite
 				setGraphicSize(Std.int(width * 0.7));
 				updateHitbox();
 				antialiasing = true;
-
-				// colorSwap.colorToReplace = 0xFFF9393F;
-				// colorSwap.newColor = 0xFF00FF00;
-
-				// color = FlxG.random.color();
-				// color.saturation *= 4;
-				// replaceColor(0xFFC1C1C1, FlxColor.RED);
 		}
-
-		colorSwap = new ColorSwap();
-		shader = colorSwap.shader;
-		updateColors();
 
 		switch (noteData)
 		{
@@ -148,9 +122,6 @@ class Note extends FlxSprite
 		{
 			noteScore * 0.2;
 			alpha = 0.6;
-
-			if (PreferencesMenu.getPref('downscroll'))
-				angle = 180;
 
 			x += width / 2;
 
@@ -194,43 +165,32 @@ class Note extends FlxSprite
 		}
 	}
 
-	public function updateColors():Void
-	{
-		colorSwap.update(arrowColors[noteData]);
-	}
-
 	override function update(elapsed:Float)
 	{
 		super.update(elapsed);
 
 		if (mustPress)
 		{
-			// miss on the NEXT frame so lag doesnt make u miss notes
-			if (willMiss && !wasGoodHit)
+			// The * 0.5 us so that its easier to hit them too late, instead of too early
+			if (strumTime > Conductor.songPosition - Conductor.safeZoneOffset
+				&& strumTime < Conductor.songPosition + (Conductor.safeZoneOffset * 0.5))
 			{
-				tooLate = true;
-				canBeHit = false;
+				canBeHit = true;
 			}
 			else
-			{
-				if (strumTime > Conductor.songPosition - Conductor.safeZoneOffset)
-				{ // The * 0.5 is so that it's easier to hit them too late, instead of too early
-					if (strumTime < Conductor.songPosition + (Conductor.safeZoneOffset * 0.5))
-						canBeHit = true;
-				}
-				else
-				{
-					canBeHit = true;
-					willMiss = true;
-				}
-			}
+				canBeHit = false;
+
+			if (strumTime < Conductor.songPosition - Conductor.safeZoneOffset)
+				tooLate = true;
 		}
 		else
 		{
 			canBeHit = false;
 
 			if (strumTime <= Conductor.songPosition)
+			{
 				wasGoodHit = true;
+			}
 		}
 
 		if (tooLate)

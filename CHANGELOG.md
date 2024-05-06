@@ -4,25 +4,11 @@ All notable changes will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [Unreleased]
-### Added
-- TANKMAN! 3 NEW SONGS BY KAWAISPRITE (UGH, GUNS, STRESS)! Charting help by MtH!
-- Monster added into week 2, FINALLY (Charting help by MtH and ChaoticGamer!)
-- Can now change song difficulty mid-game.
-- Shows some song info on pause screen.
-- Cute little icons onto freeplay menu
-### Changed
-- ASSET LOADING OVERHAUL, WAY FASTER LOAD TIMES ON WEB!!! (THANKS TO GEOKURELI WOKE KING)
-- Made difficulty selector on freeplay menu more apparent
-### Fixed
-- That one random note on Bopeebo
-
 ## [0.2.7.1] - 2021-02-14
 ### Added
 - Easter eggs
 - readme's in desktop versions of the game
 ### Changed
-
 - New icons, old one was placeholder since October woops!
 - Made the transitions between the story mode levels more seamless.
 - Offset of the Newgrounds logo on boot screen.
