@@ -1,3 +1,16 @@
+# [INDEV] Engine!
+
+A Friday Night Funkin' Engine that's well uh in development lol (I didn't know what to name the engine, I'm uncreative)
+I legit don't have any plans for this engine, I'm just adding whatever comes to mind.
+
+# CREDS - (I'LL BE CREDITING ALMOST EVERYTHING I ADD)
+
+* [Ty (me!)](https://twitter.com/tydotcs) - Indev Engine, FX Engine (I'm pulling some stuff from it), Results Screen Recreation
+
+* [HiroNG](https://twitter.com/skadoobep) - BG for Results screen
+
+* [Funkin' Crew](https://twitter.com/FNF_Developers) - Original Game, Results BF & GF Assets and Offsets, Speaker thing in Results BG
+
 # Friday Night Funkin
 
 This is the repository for Friday Night Funkin, a game originally made for Ludum Dare 47 "Stuck In a Loop".
