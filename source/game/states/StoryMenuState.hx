@@ -301,7 +301,7 @@ class StoryMenuState extends MusicBeatState
 
 			PlayState.SONG = Song.loadFromJson(PlayState.storyPlaylist[0].toLowerCase() + diffic, PlayState.storyPlaylist[0].toLowerCase());
 			PlayState.storyWeek = curWeek;
-			PlayState.campaignScore = 0;
+			PlayState.storyScore = 0;
 			new FlxTimer().start(1, function(tmr:FlxTimer)
 			{
 				if (FlxG.sound.music != null)

@@ -39,6 +39,7 @@ import openfl.display.BlendMode;
 import openfl.display.StageQuality;
 import openfl.filters.ShaderFilter;
 import game.states.TitleState;
+import game.states.StoryMenuState;
 
 using StringTools;
 
@@ -111,10 +112,10 @@ class PlayState extends MusicBeatState
 	var wiggleShit:WiggleEffect = new WiggleEffect();
 
 	var talking:Bool = true;
-	var songScore:Int = 0;
+	public var songScore:Int = 0;
 	var scoreTxt:FlxText;
 
-	public static var campaignScore:Int = 0;
+	public static var storyScore:Int = 0;
 
 	var defaultCamZoom:Float = 1.05;
 
@@ -123,8 +124,12 @@ class PlayState extends MusicBeatState
 
 	var inCutscene:Bool = false;
 
+	// [INDEV]
+	public static var misses:Int = 0;
+
 	override public function create()
 	{
+		instance = this;
 		// var gameCam:FlxCamera = FlxG.camera;
 		camGame = new FlxCamera();
 		camHUD = new FlxCamera();
@@ -1233,19 +1238,23 @@ class PlayState extends MusicBeatState
 	var startedCountdown:Bool = false;
 	var canPause:Bool = true;
 
+	// RESULTS SHIT
+	public static var sicks:Int = 0;
+	public static var goods:Int = 0;
+	public static var bads:Int = 0;
+	public static var shits:Int = 0;
+	public static var storyMisses:Int = 0;
+	public static var storySicks:Int = 0;
+	public static var storyGoods:Int = 0;
+	public static var storyBads:Int = 0;
+	public static var storyShits:Int = 0;
+	public static var instance:PlayState = null;
+
 	override public function update(elapsed:Float)
 	{
 		#if !debug
 		perfectMode = false;
 		#end
-
-		if (FlxG.keys.justPressed.NINE)
-		{
-			if (iconP1.animation.curAnim.name == 'bf-old')
-				iconP1.animation.play(SONG.player1);
-			else
-				iconP1.animation.play('bf-old');
-		}
 
 		switch (curStage)
 		{
@@ -1265,7 +1274,7 @@ class PlayState extends MusicBeatState
 
 		super.update(elapsed);
 
-		scoreTxt.text = "Score:" + songScore;
+		scoreTxt.text = "Score:" + songScore + " | Misses:" + misses;
 
 		if (FlxG.keys.justPressed.ENTER && startedCountdown && canPause)
 		{
@@ -1279,6 +1288,13 @@ class PlayState extends MusicBeatState
 		if (FlxG.keys.justPressed.SEVEN)
 		{
 			FlxG.switchState(new debug.states.ChartingState());
+		}
+
+		if (FlxG.keys.justPressed.EIGHT)
+		{
+			trace("Switching to wip ResultsState?");
+			//openSubState(new game.substates.ResultsState());
+			FlxG.switchState(new game.states.Results());
 		}
 
 		// FlxG.watch.addQuick('VOL', vocals.amplitudeLeft);
@@ -1307,9 +1323,6 @@ class PlayState extends MusicBeatState
 			iconP2.animation.curAnim.curFrame = 1;
 		else
 			iconP2.animation.curAnim.curFrame = 0;
-
-		if (FlxG.keys.justPressed.EIGHT)
-			FlxG.switchState(new debug.states.AnimationDebug(SONG.player2));
 
 		if (startingSong)
 		{
@@ -1594,7 +1607,7 @@ class PlayState extends MusicBeatState
 
 		if (isStoryMode)
 		{
-			campaignScore += songScore;
+			storyScore += songScore;
 
 			storyPlaylist.remove(storyPlaylist[0]);
 
@@ -1605,14 +1618,14 @@ class PlayState extends MusicBeatState
 				transIn = FlxTransitionableState.defaultTransIn;
 				transOut = FlxTransitionableState.defaultTransOut;
 
-				FlxG.switchState(new game.states.StoryMenuState());
+				FlxG.switchState(new game.states.Results());
 
 				// if ()
 				StoryMenuState.weekUnlocked[Std.int(Math.min(storyWeek + 1, StoryMenuState.weekUnlocked.length - 1))] = true;
 
 				if (SONG.validScore)
 				{
-					Highscore.saveWeekScore(storyWeek, campaignScore, storyDifficulty);
+					Highscore.saveWeekScore(storyWeek, storyScore, storyDifficulty);
 				}
 
 				FlxG.save.data.weekUnlocked = StoryMenuState.weekUnlocked;
@@ -1654,8 +1667,7 @@ class PlayState extends MusicBeatState
 		}
 		else
 		{
-			trace('WENT BACK TO FREEPLAY??');
-			FlxG.switchState(new game.states.FreeplayState());
+			FlxG.switchState(new game.states.Results());
 		}
 	}
 
@@ -1678,21 +1690,45 @@ class PlayState extends MusicBeatState
 		var score:Int = 350;
 
 		var daRating:String = "sick";
+		sicks += 1;
+		if (isStoryMode)
+		{
+			storyScore += Math.round(songScore);
+			storySicks += sicks;
+		}
 
 		if (noteDiff > Conductor.safeZoneOffset * 0.9)
 		{
 			daRating = 'shit';
 			score = 50;
+			shits += 1;
+			if (isStoryMode)
+			{
+				storyScore += Math.round(songScore);
+				storyShits += shits;
+			}		
 		}
 		else if (noteDiff > Conductor.safeZoneOffset * 0.75)
 		{
 			daRating = 'bad';
 			score = 100;
+			bads += 1;
+			if (isStoryMode)
+			{
+				storyScore += Math.round(songScore);
+				storyBads += bads;
+			}
 		}
 		else if (noteDiff > Conductor.safeZoneOffset * 0.2)
 		{
 			daRating = 'good';
 			score = 200;
+			goods += 1;
+			if (isStoryMode)
+			{
+				storyScore += Math.round(songScore);
+				storyGoods += goods;
+			}	
 		}
 
 		songScore += score;
@@ -2009,6 +2045,12 @@ class PlayState extends MusicBeatState
 
 	function noteMiss(direction:Int = 1):Void
 	{
+		misses++;
+		if (isStoryMode)
+		{
+			storyScore += Math.round(songScore);
+			storyMisses += misses;
+		}
 		if (!boyfriend.stunned)
 		{
 			health -= 0.04;
