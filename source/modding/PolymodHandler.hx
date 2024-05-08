@@ -69,7 +69,7 @@ class PolymodHandler
 			// Framework being used to load assets.
 			framework: OPENFL,
 			// The current version of our API.
-			apiVersion: API_VERSION,
+			//apiVersion: API_VERSION,
 			// Call this function any time an error occurs.
 			errorCallback: onPolymodError,
 			// Enforce semantic version patterns for each mod.
@@ -102,8 +102,10 @@ class PolymodHandler
 			}
 		}
 
+		/*
 		for (mod in loadedModList)
-			trace('  * ${mod.title} v${mod.modVersion} [${mod.id}]');
+			trace('  * ${mod.title}');
+		*/
 
 		#if debug
 		var fileList = Polymod.listModFiles("IMAGE");
@@ -187,8 +189,7 @@ class PolymodHandler
 		trace('Scanning the mods folder...');
 		var modMetadata = Polymod.scan({
 			modRoot: MOD_FOLDER,
-			apiVersionRule: API_VERSION,
-			errorCallback: PolymodErrorHandler.onPolymodError
+			//apiVersionRule: API_VERSION
 		});
 		trace('Found ${modMetadata.length} mods when scanning.');
 		return modMetadata;
