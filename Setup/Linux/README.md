@@ -1,0 +1,1 @@
+also run chmod +x InstallandSetup.sh before running ./InstallandSetup.sh

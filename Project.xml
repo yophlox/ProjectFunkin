@@ -42,7 +42,7 @@
 
 	<assets path="assets/images" />
 	<assets path="assets/data" />
-	<assets path='example_mods' rename='mods' embed='false'/>
+	<assets path='example_mods' rename='mods' embed='false' exclude="*.md"/>
 	<!-- <template path='mods' /> -->
 	
 	<!-- <library name="noPreload" preload='false'/> -->
@@ -67,6 +67,7 @@
 
 	<!--In case you want to use the addons package-->
 	<haxelib name="flixel-addons" />
+	<haxelib name="polymod" />
 	<haxelib name="hscript" />
 
 	<!--In case you want to use the ui package-->
@@ -104,6 +105,28 @@
 
 	<!--Enable this for Nape release builds for a serious peformance improvement-->
 	<haxedef name="NAPE_RELEASE_BUILD" unless="debug" />
+
+	<!-- Options for Polymod -->
+	<section if="polymod">
+		<!-- Turns on additional debug logging. -->
+		<haxedef name="POLYMOD_DEBUG" value="true" if="debug" />
+		<!-- The file extension to use for script files. -->
+		<haxedef name="POLYMOD_SCRIPT_EXT" value=".hscript" />
+		<!-- Which asset library to use for scripts. -->
+		<haxedef name="POLYMOD_SCRIPT_LIBRARY" value="scripts" />
+		<!-- The base path from which scripts should be accessed. -->
+		<haxedef name="POLYMOD_ROOT_PATH" value="scripts/" />
+		<!-- Determines the precision required for mods to be compatible. -->
+		<haxedef name="POLYMOD_API_VERSION_MATCH" value="MATCH_MINOR" />
+		<!-- Determines the subdirectory of the mod folder used for file appending. -->
+		<haxedef name="POLYMOD_APPEND_FOLDER" value="_append" />
+		<!-- Determines the subdirectory of the mod folder used for file merges. -->
+		<haxedef name="POLYMOD_MERGE_FOLDER" value="_merge" />
+		<!-- Determines the file in the mod folder used for metadata. -->
+		<haxedef name="POLYMOD_MOD_METADATA_FILE" value="_polymod_meta.json" />
+		<!-- Determines the file in the mod folder used for the icon. -->
+		<haxedef name="POLYMOD_MOD_ICON_FILE" value="_polymod_icon.png" />
+	</section>
 
 	<!-- _________________________________ Custom _______________________________ -->
 

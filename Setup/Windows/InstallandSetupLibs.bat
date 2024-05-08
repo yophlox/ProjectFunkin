@@ -12,7 +12,8 @@ haxelib install lime 7.9.0
 haxelib install openfl
 haxelib --never install flixel 4.11.0
 haxelib run lime setup flixel
-haxelib run lime setup
+haxelib install polymod
+haxelib run lime setup -y
 haxelib install flixel-tools
 haxelib install flixel-addons 2.11.0
 haxelib install flixel-ui
@@ -21,4 +22,7 @@ cls
 echo Setting up lime & flixel tools...
 haxelib run flixel-tools setup
 haxelib run lime setup
+haxelib set flixel 4.11.0
+haxelib set lime 7.9.0
+haxelib set flixel-addons 2.11.0
 cls
