@@ -11,6 +11,7 @@ class ModMetadata
 	public var title:String;
 	public var description:String;
     public var contributors:String;
+	public var id:String;
 
 	public function new(folder:String)
 	{
@@ -29,6 +30,7 @@ class ModMetadata
 				var description:String = Reflect.getProperty(stuff, "description");
 				var title:String = Reflect.getProperty(stuff, "title");
                 var contributors:String = Reflect.getProperty(stuff, "contributors");
+				var id:String = Reflect.getProperty(stuff, "id");
 
 				if (title != null && title.length > 0)
 				{
@@ -41,7 +43,11 @@ class ModMetadata
 				if (contributors != null && contributors.length > 0)
                 {
                     this.contributors = contributors;
-                }                
+                } 
+				if (id != null && id.length > 0)
+				{
+					this.id = id;
+				}     				               
 			}
 		}
 	}

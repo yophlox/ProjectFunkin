@@ -39,6 +39,7 @@ jobs:
           haxelib install flixel-tools
           haxelib install flixel-addons 2.11.0
           haxelib install flixel-ui
+          lime setup hl -y
           haxelib set flixel 4.11.0
           haxelib set lime 7.9.0
           haxelib set flixel-addons 2.11.0
