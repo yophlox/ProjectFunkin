@@ -5,7 +5,7 @@ haxelib install openfl
 haxelib --never install flixel 4.11.0
 haxelib run lime setup flixel
 haxelib run lime setup -y
-haxelib install polymod
+haxelib git polymod https://github.com/larsiusprime/polymod
 haxelib install flixel-tools
 haxelib install flixel-addons 2.11.0
 haxelib install flixel-ui
