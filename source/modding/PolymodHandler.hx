@@ -185,7 +185,11 @@ class PolymodHandler
 	{
 		#if cpp
 		trace('Scanning the mods folder...');
-		var modMetadata = Polymod.scan(MOD_FOLDER);
+		var modMetadata = Polymod.scan({
+			modRoot: MOD_FOLDER,
+			apiVersionRule: API_VERSION,
+			errorCallback: PolymodErrorHandler.onPolymodError
+		});
 		trace('Found ${modMetadata.length} mods when scanning.');
 		return modMetadata;
 		#else
