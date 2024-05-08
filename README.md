@@ -5,10 +5,11 @@ I legit don't have any plans for this engine, I'm just adding whatever comes to 
 
 # ADDITIONS
 
-Restored the Preloader!
-Recreated the Results from FNF v0.3.2
-Setup for easy compiling
-Changed stuff in src
+* Restored the original Preloader! (and fixed it a bit!)
+* Recreated the Results from FNF v0.3.2
+* Setup for easy compiling
+* Added folders to sort shit out in source
+* Polymod!
 
 # CREDS - (I'LL BE CREDITING ALMOST EVERYTHING I ADD)
 
