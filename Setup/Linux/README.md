@@ -1,1 +1,1 @@
-also run chmod +x InstallandSetup.sh before running ./InstallandSetup.sh
+run dis lol: chmod +x InstallandSetup.sh && ./InstallandSetup.sh

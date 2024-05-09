@@ -15,7 +15,9 @@ I legit don't have any plans for this engine, I'm just adding whatever comes to 
 
 * [Ty (me!)](https://twitter.com/tydotcs) - Indev Engine, FX Engine (I'm pulling some stuff from it), Results Screen Recreation
 
-* [HiroNG](https://twitter.com/skadoobep) - BG for Results screen
+* [HiroNG](https://twitter.com/skadoobep) - Modified BG for Results screen
+
+* [LinkstormZ](https://twitter.com/LinkstormZ) - Pixel bf results anim 
 
 * [Funkin' Crew](https://twitter.com/FNF_Developers) - Original Game, Results BF & GF Assets and Offsets, Speaker thing in Results BG, Preloader
 

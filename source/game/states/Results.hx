@@ -108,16 +108,39 @@ class Results extends FlxState
 			gf.animation.play('clap', true, false, 9);
 		};
 		this.add(gf);
-        var boyfriend = new FlxSprite(640, -200);
-		boyfriend.frames = Paths.getSparrowAtlas('results/resultBoyfriendGOOD');
-		boyfriend.animation.addByPrefix('fall', 'Boyfriend Good Anim0', 24, false);
-		boyfriend.visible = true;
-        boyfriend.animation.play('fall');
-		boyfriend.animation.finishCallback = function(name:String)
-        {
-			boyfriend.animation.play('fall', true, false, 14);
-		};
-		this.add(boyfriend);
+
+		switch (PlayState.curStage)
+		{
+			//case 'school' | 'schoolEvil':
+			case 'stage': // MADE FOR TESTING PURPOSES
+			{
+				var pixelbf = new FlxSprite(640, -200);
+				pixelbf.frames = Paths.getSparrowAtlas('results/pixel/resultPixelBoyfriendGOOD');
+				pixelbf.animation.addByPrefix('fall', 'Boyfriend Good Anim0', 24, false);
+				pixelbf.visible = true;
+				pixelbf.animation.play('fall');
+				pixelbf.animation.finishCallback = function(name:String)
+				{
+					pixelbf.animation.play('fall', true, false, 14);
+				};
+				setGraphicSize(Std.int(width * 6));
+				updateHitbox();
+				this.add(pixelbf);
+			}
+			default:
+			{
+				var boyfriend = new FlxSprite(640, -200);
+				boyfriend.frames = Paths.getSparrowAtlas('results/resultBoyfriendGOOD');
+				boyfriend.animation.addByPrefix('fall', 'Boyfriend Good Anim0', 24, false);
+				boyfriend.visible = true;
+				boyfriend.animation.play('fall');
+				boyfriend.animation.finishCallback = function(name:String)
+				{
+					boyfriend.animation.play('fall', true, false, 14);
+				};
+				this.add(boyfriend);
+			}	
+		}	
 
 		text = new FlxText(centerX, 150, 0, "Level Complete!");
 		text.size = 34;
