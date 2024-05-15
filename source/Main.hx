@@ -11,10 +11,10 @@ class Main extends Sprite
 	{
 		super();
 
-		#if desktop
+		#if (!hl)
 		PolymodHandler.loadAllMods();
 		#else
-		trace("Polymod not supported on web, sorry!");
+		trace("Polymod not supported on this device, sorry!");
 		#end
 		addChild(new FlxGame(0, 0, game.states.TitleState));
 
