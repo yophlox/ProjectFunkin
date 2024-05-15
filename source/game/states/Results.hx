@@ -123,8 +123,8 @@ class Results extends FlxState
 				{
 					pixelbf.animation.play('fall', true, false, 14);
 				};
-				setGraphicSize(Std.int(width * 6));
-				updateHitbox();
+				pixelbf.setGraphicSize(Std.int(width * 6));
+				pixelbf.updateHitbox();
 				this.add(pixelbf);
 			}
 			default:
