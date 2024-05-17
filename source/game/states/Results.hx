@@ -124,7 +124,7 @@ class Results extends FlxState
 				{
 					pixelbf.animation.play('fall', true, false, 14);
 				};
-				pixelbf.setGraphicSize(Std.int(width * 6));
+				pixelbf.setGraphicSize(Std.int(pixelbf.width * 6));
 				pixelbf.updateHitbox();
 				this.add(pixelbf);
 			}

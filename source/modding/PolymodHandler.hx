@@ -1,5 +1,5 @@
 package modding;
-#if desktop
+#if mobile // legit js so I don't have to fix it rn
 #if cpp
 import polymod.Polymod;
 import polymod.backends.OpenFLBackend;
