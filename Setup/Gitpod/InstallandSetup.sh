@@ -17,7 +17,6 @@ haxelib git polymod https://github.com/larsiusprime/polymod
 haxelib set lime 7.9.0
 haxelib set flixel 4.11.0
 haxelib set flixel-addons 2.11.0
-echo Setting up flixel-tools and lime..
-haxelib run flixel-tools setup
+echo Setting up Lime..
 haxelib run lime setup -y
 echo Indev Engine fully set up for building!

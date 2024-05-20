@@ -19,8 +19,7 @@ haxelib install flixel-addons 2.11.0
 haxelib install flixel-ui
 title Indev Setup - Press anything to activate lime & flixel tools.
 cls
-echo Setting up lime & flixel tools...
-haxelib run flixel-tools setup
+echo Setting up Lime...
 haxelib run lime setup
 haxelib set flixel 4.11.0
 haxelib set lime 7.9.0

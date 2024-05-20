@@ -11,6 +11,7 @@ import flixel.util.FlxColor;
 import lime.utils.Assets;
 import game.states.TitleState;
 import game.states.PlayState;
+import game.states.OpPlayState;
 
 using StringTools;
 
@@ -197,10 +198,18 @@ class FreeplayState extends MusicBeatState
 
 			trace(poop);
 
-			PlayState.SONG = Song.loadFromJson(poop, songs[curSelected].toLowerCase());
-			PlayState.isStoryMode = false;
-			PlayState.storyDifficulty = curDifficulty;
-			FlxG.switchState(new PlayState());
+			if (FlxG.save.data.optimize)
+			{	
+				PlayState.SONG = Song.loadFromJson(poop, songs[curSelected].toLowerCase());
+				PlayState.isStoryMode = false;
+				PlayState.storyDifficulty = curDifficulty;
+				FlxG.switchState(new PlayState());
+			}	
+			else
+				PlayState.SONG = Song.loadFromJson(poop, songs[curSelected].toLowerCase());
+				PlayState.isStoryMode = false;
+				PlayState.storyDifficulty = curDifficulty;
+				FlxG.switchState(new PlayState());
 			if (FlxG.sound.music != null)
 				FlxG.sound.music.stop();
 		}

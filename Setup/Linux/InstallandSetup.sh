@@ -9,8 +9,7 @@ haxelib git polymod https://github.com/larsiusprime/polymod
 haxelib install flixel-tools
 haxelib install flixel-addons 2.11.0
 haxelib install flixel-ui
-echo Setting up flixel-tools and lime..
-haxelib run flixel-tools setup
+echo Setting up Lime..
 haxelib run lime setup -y
 haxelib set flixel 4.11.0
 haxelib set lime 7.9.0

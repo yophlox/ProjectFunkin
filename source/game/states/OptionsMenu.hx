@@ -1,5 +1,8 @@
+// STOLEN FROM FX ENGINE WHICH STOLE THIS FROM KE LOL
 package game.states;
 
+
+import Controls.KeyboardScheme;
 import Controls.Control;
 import flash.text.TextField;
 import flixel.FlxG;
@@ -11,7 +14,7 @@ import flixel.math.FlxMath;
 import flixel.text.FlxText;
 import flixel.util.FlxColor;
 import lime.utils.Assets;
-import game.states.TitleState;
+
 class OptionsMenu extends MusicBeatState
 {
 	var selector:FlxText;
@@ -20,11 +23,14 @@ class OptionsMenu extends MusicBeatState
 	var controlsStrings:Array<String> = [];
 
 	private var grpControls:FlxTypedGroup<Alphabet>;
-
+	var versionShit:FlxText;
 	override function create()
 	{
-		var menuBG:FlxSprite = new FlxSprite().loadGraphic('assets/images/menuDesat.png');
-		controlsStrings = CoolUtil.coolTextFile('assets/data/controls.txt');
+		var menuBG:FlxSprite = new FlxSprite().loadGraphic(Paths.image('menuDesat'));
+		controlsStrings = CoolUtil.coolStringFile((FlxG.save.data.optimize ? 'Optimized' : 'Normal') + "\n" + (FlxG.save.data.downscroll ? 'Downscroll' : 'Upscroll') + "\n" + (FlxG.save.data.midscroll ? 'MiddleScroll' : 'RegScroll') + "\nCrash Game");
+		
+		trace(controlsStrings);
+
 		menuBG.color = 0xFFea71fd;
 		menuBG.setGraphicSize(Std.int(menuBG.width * 1.1));
 		menuBG.updateHitbox();
@@ -37,15 +43,18 @@ class OptionsMenu extends MusicBeatState
 
 		for (i in 0...controlsStrings.length)
 		{
-			if (controlsStrings[i].indexOf('set') != -1)
-			{
-				var controlLabel:Alphabet = new Alphabet(0, (70 * i) + 30, controlsStrings[i].substring(3) + ': ' + controlsStrings[i + 1], true, false);
+				var controlLabel:Alphabet = new Alphabet(0, (70 * i) + 30, controlsStrings[i], true, false);
 				controlLabel.isMenuItem = true;
 				controlLabel.targetY = i;
 				grpControls.add(controlLabel);
-			}
 			// DONT PUT X IN THE FIRST PARAMETER OF new ALPHABET() !!
 		}
+
+
+		versionShit = new FlxText(5, FlxG.height - 18, 0, "Offset (Left, Right): " + FlxG.save.data.offset, 12);
+		versionShit.scrollFactor.set();
+		versionShit.setFormat("VCR OSD Mono", 16, FlxColor.WHITE, LEFT, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
+		add(versionShit);
 
 		super.create();
 	}
@@ -54,46 +63,65 @@ class OptionsMenu extends MusicBeatState
 	{
 		super.update(elapsed);
 
-		if (controls.ACCEPT)
-		{
-			changeBinding();
-		}
-
-		if (isSettingControl)
-			waitingInput();
-		else
-		{
 			if (controls.BACK)
-				FlxG.switchState(new game.states.MainMenuState());
+				FlxG.switchState(new MainMenuState());
 			if (controls.UP_P)
 				changeSelection(-1);
 			if (controls.DOWN_P)
 				changeSelection(1);
-		}
-	}
+			
+			if (controls.RIGHT_R)
+			{
+				FlxG.save.data.offset++;
+				versionShit.text = "Offset (Left, Right): " + FlxG.save.data.offset;
+			}
 
-	function waitingInput():Void
-	{
-		if (FlxG.keys.getIsDown().length > 0)
-		{
-			PlayerSettings.player1.controls.replaceBinding(Control.LEFT, Keys, FlxG.keys.getIsDown()[0].ID, null);
-		}
-		// PlayerSettings.player1.controls.replaceBinding(Control)
+			if (controls.LEFT_R)
+				{
+					FlxG.save.data.offset--;
+					versionShit.text = "Offset (Left, Right): " + FlxG.save.data.offset;
+				}
+	
+
+			if (controls.ACCEPT)
+			{
+				if (curSelected != 4)
+					grpControls.remove(grpControls.members[curSelected]);
+				switch(curSelected)
+				{
+					case 0:
+						FlxG.save.data.optimize = !FlxG.save.data.optimize;
+						var ctrl:Alphabet = new Alphabet(0, (70 * curSelected) + 30, (FlxG.save.data.optimize ? 'Optimized' : 'Normal'), true, false);
+						ctrl.isMenuItem = true;
+						ctrl.targetY = curSelected - 2;
+						grpControls.add(ctrl);
+
+					case 1:
+						FlxG.save.data.downscroll = !FlxG.save.data.downscroll;
+						var ctrl:Alphabet = new Alphabet(0, (70 * curSelected) + 30, (FlxG.save.data.downscroll ? 'Downscroll' : 'Upscroll'), true, false);
+						ctrl.isMenuItem = true;
+						ctrl.targetY = curSelected - 2;
+						grpControls.add(ctrl);
+
+					case 2:
+						FlxG.save.data.midscroll = !FlxG.save.data.midscroll;
+						var ctrl:Alphabet = new Alphabet(0, (70 * curSelected) + 30, (FlxG.save.data.midscroll ? 'MiddleScroll' : 'RegScroll'), true, false);
+						ctrl.isMenuItem = true;
+						ctrl.targetY = curSelected - 2;
+						grpControls.add(ctrl);
+				}
+			}
 	}
 
 	var isSettingControl:Bool = false;
 
-	function changeBinding():Void
-	{
-		if (!isSettingControl)
-		{
-			isSettingControl = true;
-		}
-	}
-
 	function changeSelection(change:Int = 0)
 	{
-		FlxG.sound.play('assets/sounds/scrollMenu' + TitleState.soundExt, 0.4);
+		#if !switch
+		// NGio.logEvent('Fresh');
+		#end
+		
+		FlxG.sound.play(Paths.sound('scrollMenu'), 0.4);
 
 		curSelected += change;
 

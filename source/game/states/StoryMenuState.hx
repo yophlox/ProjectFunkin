@@ -14,6 +14,7 @@ import flixel.util.FlxTimer;
 import lime.net.curl.CURLCode;
 import game.states.TitleState;
 import game.states.PlayState;
+import game.states.OpPlayState;
 
 using StringTools;
 
@@ -283,8 +284,16 @@ class StoryMenuState extends MusicBeatState
 				stopspamming = true;
 			}
 
-			PlayState.storyPlaylist = weekData[curWeek];
-			PlayState.isStoryMode = true;
+			if (FlxG.save.data.optimize)
+			{
+				OpPlayState.storyPlaylist = weekData[curWeek];
+				OpPlayState.isStoryMode = true;
+			}
+			else
+			{
+				PlayState.storyPlaylist = weekData[curWeek];
+				PlayState.isStoryMode = true;
+			}	
 			selectedWeek = true;
 
 			var diffic = "";
@@ -297,16 +306,29 @@ class StoryMenuState extends MusicBeatState
 					diffic = '-hard';
 			}
 
-			PlayState.storyDifficulty = curDifficulty;
+			if (FlxG.save.data.optimize)
+			{	
+				PlayState.storyDifficulty = curDifficulty;
+				PlayState.SONG = Song.loadFromJson(PlayState.storyPlaylist[0].toLowerCase() + diffic, PlayState.storyPlaylist[0].toLowerCase());
+				PlayState.storyWeek = curWeek;
+				PlayState.storyScore = 0;
+			}	
+			else	
+				PlayState.storyDifficulty = curDifficulty;
+				PlayState.SONG = Song.loadFromJson(PlayState.storyPlaylist[0].toLowerCase() + diffic, PlayState.storyPlaylist[0].toLowerCase());
+				PlayState.storyWeek = curWeek;
+				PlayState.storyScore = 0;
 
-			PlayState.SONG = Song.loadFromJson(PlayState.storyPlaylist[0].toLowerCase() + diffic, PlayState.storyPlaylist[0].toLowerCase());
-			PlayState.storyWeek = curWeek;
-			PlayState.storyScore = 0;
 			new FlxTimer().start(1, function(tmr:FlxTimer)
 			{
 				if (FlxG.sound.music != null)
 					FlxG.sound.music.stop();
-				FlxG.switchState(new PlayState());
+				if (FlxG.save.data.optimize)
+				{	
+					FlxG.switchState(new OpPlayState());
+				}	
+				else
+					FlxG.switchState(new PlayState());
 			});
 		}
 	}
