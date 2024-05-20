@@ -2068,13 +2068,15 @@ class PlayState extends MusicBeatState
 		}
 		if (!boyfriend.stunned)
 		{
+			misses++;
 			health -= 0.04;
+			misses++;
 			if (combo > 5)
 			{
 				gf.playAnim('sad');
 			}
 			combo = 0;
-
+			misses++;
 			songScore -= 10;
 
 			FlxG.sound.play('assets/sounds/missnote' + FlxG.random.int(1, 3) + TitleState.soundExt, FlxG.random.float(0.1, 0.2));
