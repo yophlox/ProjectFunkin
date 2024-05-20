@@ -325,9 +325,11 @@ class StoryMenuState extends MusicBeatState
 					FlxG.sound.music.stop();
 				if (FlxG.save.data.optimize)
 				{	
+					trace("Shit pc")
 					FlxG.switchState(new OpPlayState());
 				}	
 				else
+					trace("Nerd pc")
 					FlxG.switchState(new PlayState());
 			});
 		}
