@@ -112,8 +112,8 @@ class Results extends FlxState
 
 		switch (PlayState.curStage)
 		{
-			//case 'school' | 'schoolEvil':
-			case 'stage': // MADE FOR TESTING PURPOSES
+			// remind me to fix this later
+			case 'school' | 'schoolEvil':
 			{
 				var pixelbf = new FlxSprite(640, -200);
 				pixelbf.frames = Paths.getSparrowAtlas('results/pixel/resultPixelBoyfriendGOOD');
