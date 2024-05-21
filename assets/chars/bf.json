@@ -1,0 +1,9 @@
+{
+    "charName": "bf",
+	"sprite": "chars/BOYFRIEND",
+	"iconName": "bf",
+	"flip_x": true,
+    "isPlayer": true,
+    "antialiasing": true,
+    "holdTimer": 0
+}
