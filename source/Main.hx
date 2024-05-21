@@ -3,7 +3,6 @@ package;
 import flixel.FlxGame;
 import openfl.display.FPS;
 import openfl.display.Sprite;
-import modding.PolymodHandler;
 
 class Main extends Sprite
 {
@@ -11,11 +10,6 @@ class Main extends Sprite
 	{
 		super();
 
-		#if mobile
-		PolymodHandler.loadAllMods();
-		#else
-		trace("Polymod not supported OR disabled on this device, sorry!");
-		#end
 		addChild(new FlxGame(0, 0, game.states.TitleState));
 
 		#if !mobile
