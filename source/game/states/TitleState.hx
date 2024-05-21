@@ -75,6 +75,7 @@ class TitleState extends MusicBeatState
 			errorCallback: errors,
 		});
 
+		var loadedMods = "";
 		//Display active mods
 		for (modData in modMetadata) {
 			loadedMods += modData.title+", ";
