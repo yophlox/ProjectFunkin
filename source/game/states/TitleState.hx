@@ -23,6 +23,12 @@ import flixel.util.FlxTimer;
 import lime.app.Application;
 import openfl.Assets;
 import game.states.TitleState;
+#if (!web)
+import sys.FileSystem;
+import polymod.Polymod.Framework;
+import polymod.Polymod.PolymodError;
+import openfl.display.BitmapData;
+#end
 using StringTools;
 
 class TitleState extends MusicBeatState
@@ -44,6 +50,40 @@ class TitleState extends MusicBeatState
 	{
 		#if (!web)
 		TitleState.soundExt = '.ogg';
+		#end
+
+		#if (!web)
+		var modDirectory:Array<String> = [];
+		var mods = sys.FileSystem.readDirectory("mods");
+
+		for (fileText in mods) {
+			if (sys.FileSystem.isDirectory("mods/"+fileText)) {
+				modDirectory.push(fileText);
+			}
+		}
+		trace(modDirectory);
+
+		// Handle mod errors
+		var errors = (error:PolymodError) -> {
+			trace(error.severity+": "+error.code+" - "+ error.message + " ORIGIN: "+error.origin);
+		};
+
+		//Initialize polymod
+		var modMetadata = polymod.Polymod.init({
+			modRoot: "mods",
+			dirs: modDirectory,
+			errorCallback: errors,
+		});
+
+		//Display active mods
+		for (modData in modMetadata) {
+			loadedMods += modData.title+", ";
+		}
+
+		var flxText = new FlxText(5, 5, 0, "", 16);
+		flxText.text = "Loaded Mods: "+loadedMods;
+		flxText.color = FlxColor.WHITE;
+		add(flxText);
 		#end
 
 		PlayerSettings.init();

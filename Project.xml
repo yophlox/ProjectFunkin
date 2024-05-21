@@ -40,8 +40,7 @@
 
 	<classpath name="source" />
 
-	<assets path="assets/images" />
-	<assets path="assets/data" />
+	<assets path="assets" rename="contents"/>
 	<assets path='example_mods' rename='mods' embed='false' exclude="*.md"/>
 	<!-- <template path='mods' /> -->
 	
