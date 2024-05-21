@@ -64,7 +64,7 @@ class StoryMenuState extends MusicBeatState
 		if (FlxG.sound.music != null)
 		{
 			if (!FlxG.sound.music.playing)
-				FlxG.sound.playMusic('assets/music/freakyMenu' + TitleState.soundExt);
+				FlxG.sound.playMusic('contents/music/freakyMenu' + TitleState.soundExt);
 		}
 
 		persistentUpdate = persistentDraw = true;
@@ -78,11 +78,11 @@ class StoryMenuState extends MusicBeatState
 
 		var rankText:FlxText = new FlxText(0, 10);
 		rankText.text = 'RANK: GREAT';
-		rankText.setFormat("assets/fonts/vcr.ttf", 32);
+		rankText.setFormat("contents/fonts/vcr.ttf", 32);
 		rankText.size = scoreText.size;
 		rankText.screenCenter(X);
 
-		var ui_tex = FlxAtlasFrames.fromSparrow('assets/images/campaign_menu_UI_assets.png', 'assets/images/campaign_menu_UI_assets.xml');
+		var ui_tex = FlxAtlasFrames.fromSparrow('contents/images/campaign_menu_UI_assets.png', 'contents/images/campaign_menu_UI_assets.xml');
 		var yellowBG:FlxSprite = new FlxSprite(0, 56).makeGraphic(FlxG.width, 400, 0xFFF9CF51);
 
 		grpWeekText = new FlxTypedGroup<MenuItem>();
@@ -259,7 +259,7 @@ class StoryMenuState extends MusicBeatState
 
 		if (controls.BACK && !movedBack && !selectedWeek)
 		{
-			FlxG.sound.play('assets/sounds/cancelMenu' + TitleState.soundExt);
+			FlxG.sound.play('contents/sounds/cancelMenu' + TitleState.soundExt);
 			movedBack = true;
 			FlxG.switchState(new game.states.MainMenuState());
 		}
@@ -277,7 +277,7 @@ class StoryMenuState extends MusicBeatState
 		{
 			if (stopspamming == false)
 			{
-				FlxG.sound.play('assets/sounds/confirmMenu' + TitleState.soundExt);
+				FlxG.sound.play('contents/sounds/confirmMenu' + TitleState.soundExt);
 
 				grpWeekText.members[curWeek].week.animation.resume();
 				grpWeekCharacters.members[1].animation.play('bfConfirm');
@@ -396,7 +396,7 @@ class StoryMenuState extends MusicBeatState
 			bullShit++;
 		}
 
-		FlxG.sound.play('assets/sounds/scrollMenu' + TitleState.soundExt);
+		FlxG.sound.play('contents/sounds/scrollMenu' + TitleState.soundExt);
 
 		updateText();
 	}
