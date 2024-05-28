@@ -137,6 +137,9 @@ class PlayState extends MusicBeatState
 	var detailsPausedText:String = "";
 	#end
 
+	// [INDEV]
+	public static var misses:Int = 0;
+
 	override public function create()
 	{
 		if (FlxG.sound.music != null)
@@ -736,8 +739,8 @@ class PlayState extends MusicBeatState
 		// healthBar
 		add(healthBar);
 
-		scoreTxt = new FlxText(healthBarBG.x + healthBarBG.width - 190, healthBarBG.y + 30, 0, "", 20);
-		scoreTxt.setFormat(Paths.font("vcr.ttf"), 16, FlxColor.WHITE, RIGHT);
+		scoreTxt = new FlxText(healthBarBG.x + healthBarBG.width / 2 - 150, healthBarBG.y + 50, 0, "", 20);
+		scoreTxt.setFormat(Paths.font("vcr.ttf"), 16, FlxColor.WHITE, RIGHT, FlxTextBorderStyle.OUTLINE,FlxColor.BLACK);
 		scoreTxt.scrollFactor.set();
 		add(scoreTxt);
 
@@ -1335,6 +1338,19 @@ class PlayState extends MusicBeatState
 	var startedCountdown:Bool = false;
 	var canPause:Bool = true;
 
+	// RESULTS SHIT
+	public static var sicks:Int = 0;
+	public static var goods:Int = 0;
+	public static var bads:Int = 0;
+	public static var shits:Int = 0;
+	public static var storyMisses:Int = 0;
+	public static var storySicks:Int = 0;
+	public static var storyGoods:Int = 0;
+	public static var storyBads:Int = 0;
+	public static var storyShits:Int = 0;
+	public static var instance:PlayState = null;
+
+
 	override public function update(elapsed:Float)
 	{
 		#if !debug
@@ -1720,7 +1736,7 @@ class PlayState extends MusicBeatState
 				transIn = FlxTransitionableState.defaultTransIn;
 				transOut = FlxTransitionableState.defaultTransOut;
 
-				FlxG.switchState(new StoryMenuState());
+				FlxG.switchState(new funkin.states.ResultsState());
 
 				// if ()
 				StoryMenuState.weekUnlocked[Std.int(Math.min(storyWeek + 1, StoryMenuState.weekUnlocked.length - 1))] = true;
@@ -1769,8 +1785,7 @@ class PlayState extends MusicBeatState
 		}
 		else
 		{
-			trace('WENT BACK TO FREEPLAY??');
-			FlxG.switchState(new FreeplayState());
+			FlxG.switchState(new funkin.states.ResultsState());
 		}
 	}
 
@@ -2128,6 +2143,11 @@ class PlayState extends MusicBeatState
 	{
 		if (!boyfriend.stunned)
 		{
+			if (isStoryMode)
+			{
+				storyMisses += misses;
+			}
+			misses += 1;
 			health -= 0.04;
 			if (combo > 5 && gf.animOffsets.exists('sad'))
 			{
