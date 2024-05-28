@@ -64,7 +64,7 @@ class StoryMenuState extends MusicBeatState
 		if (FlxG.sound.music != null)
 		{
 			if (!FlxG.sound.music.playing)
-				FlxG.sound.playMusic('contents/music/freakyMenu' + TitleState.soundExt);
+				FlxG.sound.playMusic(Paths.music('freakyMenu'));
 		}
 
 		persistentUpdate = persistentDraw = true;
@@ -78,11 +78,11 @@ class StoryMenuState extends MusicBeatState
 
 		var rankText:FlxText = new FlxText(0, 10);
 		rankText.text = 'RANK: GREAT';
-		rankText.setFormat("contents/fonts/vcr.ttf", 32);
+		rankText.setFormat(Paths.font("vcr.ttf"), 32);
 		rankText.size = scoreText.size;
 		rankText.screenCenter(X);
 
-		var ui_tex = FlxAtlasFrames.fromSparrow('contents/images/campaign_menu_UI_assets.png', 'contents/images/campaign_menu_UI_assets.xml');
+		var ui_tex = Paths.getSparrowAtlas('campaign_menu_UI_assets');
 		var yellowBG:FlxSprite = new FlxSprite(0, 56).makeGraphic(FlxG.width, 400, 0xFFF9CF51);
 
 		grpWeekText = new FlxTypedGroup<MenuItem>();
@@ -259,9 +259,9 @@ class StoryMenuState extends MusicBeatState
 
 		if (controls.BACK && !movedBack && !selectedWeek)
 		{
-			FlxG.sound.play('contents/sounds/cancelMenu' + TitleState.soundExt);
+			FlxG.sound.play(Paths.sound('cancelMenu'));
 			movedBack = true;
-			FlxG.switchState(new game.states.MainMenuState());
+			FlxG.switchState(new MainMenuState());
 		}
 
 		super.update(elapsed);
@@ -277,9 +277,8 @@ class StoryMenuState extends MusicBeatState
 		{
 			if (stopspamming == false)
 			{
-				FlxG.sound.play('contents/sounds/confirmMenu' + TitleState.soundExt);
-
-				grpWeekText.members[curWeek].week.animation.resume();
+				FlxG.sound.play(Paths.sound('confirmMenu'));
+				grpWeekText.members[curWeek].startFlashing();
 				grpWeekCharacters.members[1].animation.play('bfConfirm');
 				stopspamming = true;
 			}
@@ -396,7 +395,7 @@ class StoryMenuState extends MusicBeatState
 			bullShit++;
 		}
 
-		FlxG.sound.play('contents/sounds/scrollMenu' + TitleState.soundExt);
+		FlxG.sound.play(Paths.sound('scrollMenu'));
 
 		updateText();
 	}
