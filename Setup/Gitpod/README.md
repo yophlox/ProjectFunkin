@@ -1,0 +1,1 @@
+run dis lol: chmod +x InstallandSetup.sh && ./InstallandSetup.sh
