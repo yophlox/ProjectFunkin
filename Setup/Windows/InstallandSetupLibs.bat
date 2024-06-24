@@ -5,7 +5,6 @@ echo Press any key to install required libraries.
 pause >nul
 title Indev Setup - Installing libraries
 echo Installing haxelib libraries...
-cinst haxe --version 4.1.5 -y
 mkdir "%HAXELIB_ROOT%"
 haxelib setup "%HAXELIB_ROOT%"
 haxelib install lime 7.9.0
