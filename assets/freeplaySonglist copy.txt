@@ -1,4 +1,0 @@
-Tutorial:gf:0:0xFFC75B8E:100
-Bopeebo:dad:1:0xFFCB87E8:100
-Fresh:dad:1:0xFFCB87E8:120
-Dadbattle:dad:1:0xFFCB87E8:180

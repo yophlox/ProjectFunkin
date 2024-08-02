@@ -8,7 +8,11 @@ class CoolUtil
 {
 	public static function coolTextFile(path:String):Array<String>
 	{
-		var daList:Array<String> = Assets.getText(path).trim().split('\n');
+		var text:String = Assets.getText(path);
+		trace('Reading file: ' + path);
+		trace('File content: ' + text);
+		
+		var daList:Array<String> = text.trim().split('\n');
 
 		for (i in 0...daList.length)
 		{

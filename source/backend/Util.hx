@@ -195,6 +195,26 @@ class Util {
     }
 
     /**
+     * Return a file in the `assets` folder as a string.
+     * @param   filePath            Path to the file.
+     */
+     static public function getFilePath(filePath:String):String {
+        #if web
+        if (Assets.exists("assets/" + filePath)) {
+            return "assets/" + filePath;
+        }
+        #else
+        if (sys.FileSystem.exists(Sys.getCwd() + "assets/" + filePath)) {
+            return Sys.getCwd() + "assets/" + filePath;
+        }
+        #end
+    
+        trace('File not found: ' + filePath);
+        return "";
+    }
+    
+
+    /**
      * Return the contents of a JSON file in the `assets` folder.
      * @param   jsonPath            Path to the json.
      */
