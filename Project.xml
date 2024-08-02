@@ -39,19 +39,11 @@
 	<set name="BUILD_DIR" value="export/32bit" if="32bit" />
 
 	<classpath name="source" />
-
-	<assets path="assets/images" />
-	<assets path="assets/charts" />
-	
+	<assets path="assets" />
 	<assets path="assets/music" include="*.mp3" if="web"/>
 	<assets path="assets/music" include="*.ogg" unless="web"/>
 	<assets path="assets/sounds" include="*.mp3" if="web" />
 	<assets path="assets/sounds" include="*.ogg" unless="web" />
-
-	<assets path="assets/characterList.txt" rename='assets/characterList.txt'/>
-	<assets path="assets/freeplaySonglist.txt" rename='assets/freeplaySonglist.txt'/>
-	<assets path="assets/introText.txt" rename='assets/introText.txt'/>
-
 
 	<!-- NOTE FOR FUTURE SELF SINCE FONTS ARE ALWAYS FUCKY 
 		TO FIX ONE OF THEM, I CONVERTED IT TO OTF. DUNNO IF YOU NEED TO
