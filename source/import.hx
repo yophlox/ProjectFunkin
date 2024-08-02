@@ -48,3 +48,5 @@ import backend.Cache;
 import backend.Preloader;
 import backend.Data;
 import backend.Paths;
+// Modding
+import modutil.HScript;

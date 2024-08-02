@@ -51,45 +51,42 @@ class PlayState extends MusicBeatState
 
 	private var vocals:FlxSound;
 
-	private var dad:Character;
-	private var gf:Character;
-	private var boyfriend:Boyfriend;
+	public var dad:Character;
+	public var gf:Character;
+	public var boyfriend:Boyfriend;
 
-	private var notes:FlxTypedGroup<Note>;
-	private var unspawnNotes:Array<Note> = [];
+	public var notes:FlxTypedGroup<Note>;
+	public var unspawnNotes:Array<Note> = [];
 
-	private var strumLine:FlxSprite;
+	public var strumLine:FlxSprite;
 	private var curSection:Int = 0;
 
-	private var camFollow:FlxObject;
+	public var camFollow:FlxObject;
 
-	private static var prevCamFollow:FlxObject;
+	public static var prevCamFollow:FlxObject;
 
-	private var strumLineNotes:FlxTypedGroup<FlxSprite>;
-	private var playerStrums:FlxTypedGroup<FlxSprite>;
+	public var strumLineNotes:FlxTypedGroup<FlxSprite>;
+	public var playerStrums:FlxTypedGroup<FlxSprite>;
 
-	private var camZooming:Bool = false;
-	private var curSong:String = "";
+	public var camZooming:Bool = false;
+	public var curSong:String = "";
 
-	private var gfSpeed:Int = 1;
-	private var health:Float = 1;
-	private var combo:Int = 0;
+	public var gfSpeed:Int = 1;
+	public var health:Float = 1;
+	public var combo:Int = 0;
 
-	private var healthBarBG:FlxSprite;
-	private var healthBar:FlxBar;
+	public var healthBarBG:FlxSprite;
+	public var healthBar:FlxBar;
 
-	private var generatedMusic:Bool = false;
-	private var startingSong:Bool = false;
+	public var generatedMusic:Bool = false;
+	public var startingSong:Bool = false;
 
-	private var iconP1:HealthIcon;
-	private var iconP2:HealthIcon;
-	private var camHUD:FlxCamera;
-	private var camGame:FlxCamera;
+	public var iconP1:HealthIcon;
+	public var iconP2:HealthIcon;
+	public var camHUD:FlxCamera;
+	public var camGame:FlxCamera;
 
-	var dialogue:Array<String> = ['blah blah blah', 'coolswag'];
-
-	var halloweenBG:FlxSprite;
-	var isHalloween:Bool = false;
+	public var dialogue:Array<String> = ['blah blah blah', 'coolswag'];
 
 	var phillyCityLights:FlxTypedGroup<FlxSprite>;
 	var phillyTrain:FlxSprite;
@@ -112,15 +109,16 @@ class PlayState extends MusicBeatState
 
 	public static var storyScore:Int = 0;
 
-	var defaultCamZoom:Float = 1.05;
+	public var defaultCamZoom:Float = 1.05;
 
 	// how big to stretch the pixel art assets
 	public static var daPixelZoom:Float = 6;
 
-	var inCutscene:Bool = false;
-
+	public var inCutscene:Bool = false;
 	// [INDEV]
 	public static var misses:Int = 0;
+	// Modding
+	public var script:HScript = new HScript();
 
 	override public function create()
 	{
@@ -224,6 +222,20 @@ class PlayState extends MusicBeatState
 
 				add(stageCurtains);
 		}
+
+		script.interp.variables.set("BackgroundDancer", BackgroundDancer);
+		script.interp.variables.set("BackgroundGirls", BackgroundGirls);
+		script.interp.variables.set("WiggleEffect", WiggleEffect);
+
+		script.interp.variables.set("curBeat", curBeat);
+		script.interp.variables.set("curStep", curStep);
+
+		script.interp.variables.set("add", function(value:Dynamic)
+		{
+			add(value);
+		});
+
+		script.call("onCreate");
 
 		var gfVersion:String = 'gf';
 
@@ -336,6 +348,10 @@ class PlayState extends MusicBeatState
 		add(dad);
 		add(boyfriend);
 
+		script.interp.variables.set("boyfriend", boyfriend);
+		script.interp.variables.set("dad", dad);
+		script.interp.variables.set("gf", gf);
+
 		var doof:DialogueBox = new DialogueBox(false, dialogue);
 		// doof.x += 70;
 		// doof.y = FlxG.height * 0.5;
@@ -358,6 +374,7 @@ class PlayState extends MusicBeatState
 		// startCountdown();
 
 		generateSong(SONG.song);
+		checkandrunscripts();
 
 		// add(strumLine);
 
@@ -478,7 +495,20 @@ class PlayState extends MusicBeatState
 		}
 
 		super.create();
+
+		script.call("createPost");
 	}
+
+	function checkandrunscripts():Void {
+		var scriptPath:String = 'assets/charts/' + curSong + '/script.hx';
+		if (sys.FileSystem.exists(scriptPath)) {
+			var scriptContent = sys.io.File.getContent(scriptPath);
+			script.loadScript(scriptContent);
+			trace("SCRIPT FOUND AND RUNNING LOL!");
+		} else {
+			trace("no script found for the current song");
+		}
+	}	
 
 	function schoolIntro(?dialogueBox:DialogueBox):Void
 	{
@@ -1029,6 +1059,12 @@ class PlayState extends MusicBeatState
 				// phillyCityLights.members[curLight].alpha -= (Conductor.crochet / 1000) * FlxG.elapsed;
 		}
 
+		script.interp.variables.set("boyfriend", boyfriend);
+		script.interp.variables.set("dad", dad);
+		script.interp.variables.set("gf", gf);
+
+		script.call("update", [elapsed]);
+
 		super.update(elapsed);
 
 		scoreTxt.text = "Score:" + songScore + " | Misses:" + misses;
@@ -1329,6 +1365,7 @@ class PlayState extends MusicBeatState
 					{
 						if (daNote.tooLate || !daNote.wasGoodHit)
 						{
+							script.call("noteTooLate", [daNote]);
 							health -= 0.0475;
 							vocals.volume = 0;
 							noteMiss(daNote.noteData, daNote);
@@ -1348,10 +1385,7 @@ class PlayState extends MusicBeatState
 		if (!inCutscene)
 			keyShit();
 
-		#if debug
-		if (FlxG.keys.justPressed.ONE)
-			endSong();
-		#end
+		script.call("updatePost", [elapsed]);
 	}
 
 	function endSong():Void
@@ -1785,47 +1819,36 @@ class PlayState extends MusicBeatState
 
 	function noteMiss(direction:Int = 1, daNote:Note):Void
 	{		
-		if (!boyfriend.stunned)
+		script.call("noteMiss", [direction]);
+		misses++;
+
+		if (health < 0)
+			health = 0;
+
+		if (health > 0)
+			health -= 0.04;
+
+		if (combo > 5 && gf.animOffsets.exists('sad'))
 		{
-			misses++;
+			gf.playAnim('sad');
+		}
 
-			if (health < 0)
-				health = 0;
+		combo = 0;
 
-			if (health > 0)
-				health -= 0.04;
+		songScore -= 10;
 
-			if (combo > 5 && gf.animOffsets.exists('sad'))
-			{
-				gf.playAnim('sad');
-			}
-			combo = 0;
+		FlxG.sound.play(Paths.soundRandom('missnote', 1, 3), FlxG.random.float(0.1, 0.2));
 
-			songScore -= 10;
-
-			FlxG.sound.play(Paths.soundRandom('missnote', 1, 3), FlxG.random.float(0.1, 0.2));
-			// FlxG.sound.play(Paths.sound('missnote1'), 1, false);
-			// FlxG.log.add('played imss note');
-
-			boyfriend.stunned = true;
-
-			// get stunned for 5 seconds
-			new FlxTimer().start(5 / 60, function(tmr:FlxTimer)
-			{
-				boyfriend.stunned = false;
-			});
-
-			switch (direction)
-			{
-				case 0:
-					boyfriend.playAnim('singLEFTmiss', true);
-				case 1:
-					boyfriend.playAnim('singDOWNmiss', true);
-				case 2:
-					boyfriend.playAnim('singUPmiss', true);
-				case 3:
-					boyfriend.playAnim('singRIGHTmiss', true);
-			}
+		switch (direction)
+		{
+			case 0:
+				boyfriend.playAnim('singLEFTmiss', true);
+			case 1:
+				boyfriend.playAnim('singDOWNmiss', true);
+			case 2:
+				boyfriend.playAnim('singUPmiss', true);
+			case 3:
+				boyfriend.playAnim('singRIGHTmiss', true);
 		}
 	}
 
@@ -1843,6 +1866,7 @@ class PlayState extends MusicBeatState
 	{
 		if (!note.wasGoodHit)
 		{
+			script.call("goodNoteHit", [note]);
 			if (!note.isSustainNote)
 			{
 				popUpScore(note.strumTime);
@@ -1965,7 +1989,6 @@ class PlayState extends MusicBeatState
 	function lightningStrikeShit():Void
 	{
 		FlxG.sound.play('assets/sounds/thunder_' + FlxG.random.int(1, 2) + TitleState.soundExt);
-		halloweenBG.animation.play('lightning');
 
 		lightningStrikeBeat = curBeat;
 		lightningOffset = FlxG.random.int(8, 24);
@@ -1977,6 +2000,7 @@ class PlayState extends MusicBeatState
 	override function stepHit()
 	{
 		super.stepHit();
+		script.call("stepHit", [curStep]);
 		if (SONG.needsVoices)
 		{
 			if (vocals.time > Conductor.songPosition + 20 || vocals.time < Conductor.songPosition - 20)
@@ -1997,6 +2021,8 @@ class PlayState extends MusicBeatState
 	override function beatHit()
 	{
 		super.beatHit();
+
+		script.call("beatHit", [curBeat]);
 
 		if (generatedMusic)
 		{
@@ -2049,6 +2075,7 @@ class PlayState extends MusicBeatState
 			boyfriend.playAnim('idle');
 		}
 
+		// TODO: HSCRIPT THIS LOL!
 		if (curBeat % 8 == 7 && curSong == 'Bopeebo')
 		{
 			boyfriend.playAnim('hey', true);
@@ -2099,11 +2126,6 @@ class PlayState extends MusicBeatState
 					trainCooldown = FlxG.random.int(-4, 0);
 					trainStart();
 				}
-		}
-
-		if (isHalloween && FlxG.random.bool(10) && curBeat > lightningStrikeBeat + lightningOffset)
-		{
-			lightningStrikeShit();
 		}
 	}
 
