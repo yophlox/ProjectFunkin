@@ -10,16 +10,21 @@ I legit don't have any plans for this engine, I'm just adding whatever comes to 
 * Setup for easy compiling
 * Added folders to sort shit out in source
 * Polymod!
+* ASKL over WASD
+* Custom Song Support
+* KE Input/Ghost Tapping!
 
 # CREDS - (I'LL BE CREDITING ALMOST EVERYTHING I ADD)
 
-* [Ty (me!)](https://twitter.com/tydotcs) - Indev Engine, FX Engine (I'm pulling some stuff from it), Results Screen Recreation
+* [Ty (me!)](https://twitter.com/tydotcs) - Project Funkin' Engine, FX Engine (I'm pulling some stuff from it), Results Screen Recreation, Custom Song Support (pulled from my w.i.p project YA4KRG)
 
 * [HiroNG](https://twitter.com/skadoobep) - Modified BG for Results screen
 
 * [LinkstormZ](https://twitter.com/LinkstormZ) - Pixel bf results anim 
 
 * [Funkin' Crew](https://twitter.com/FNF_Developers) - Original Game, Results BF & GF Assets and Offsets, Speaker thing in Results BG, Preloader
+
+* [KadeDev](https://x.com/kade0912) - Kade Engine (pulled the input from it lol!) 
 
 # Friday Night Funkin
 

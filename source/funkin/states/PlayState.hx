@@ -1612,10 +1612,14 @@ class PlayState extends MusicBeatState
 		curSection += 1;
 	}
 
-	private function keyShit():Void // KADE ENGINE, INPUT LOL!
+	var upHold:Bool = false;
+	var downHold:Bool = false;
+	var rightHold:Bool = false;
+	var leftHold:Bool = false;
+
+	private function keyShit():Void
 	{
 		// HOLDING
-		/*
 		var up = controls.UP;
 		var right = controls.RIGHT;
 		var down = controls.DOWN;
@@ -1630,123 +1634,101 @@ class PlayState extends MusicBeatState
 		var rightR = controls.RIGHT_R;
 		var downR = controls.DOWN_R;
 		var leftR = controls.LEFT_R;
-		*/
 
-		var holdArray:Array<Bool> = [controls.LEFT, controls.DOWN, controls.UP, controls.RIGHT];
-			var pressArray:Array<Bool> = [
-				controls.LEFT_P,
-				controls.DOWN_P,
-				controls.UP_P,
-				controls.RIGHT_P
-			];
-			var releaseArray:Array<Bool> = [
-				controls.LEFT_R,
-				controls.DOWN_R,
-				controls.UP_R,
-				controls.RIGHT_R
-			];
-
-		//var controlArray:Array<Bool> = [leftP, downP, upP, rightP];
-
-		if (holdArray.contains(true) && /*!boyfriend.stunned && */ generatedMusic)
-		{
-			notes.forEachAlive(function(daNote:Note)
-			{
-				if (daNote.isSustainNote && daNote.canBeHit && daNote.mustPress && holdArray[daNote.noteData])
-					goodNoteHit(daNote);
-			});
-		}
+		var controlArray:Array<Bool> = [leftP, downP, upP, rightP];
 
 		// FlxG.watch.addQuick('asdfa', upP);
-		if (pressArray.contains(true) && /*!boyfriend.stunned &&*/ generatedMusic)
+		if ((upP || rightP || downP || leftP) && !boyfriend.stunned && generatedMusic)
 		{
 			boyfriend.holdTimer = 0;
 
-			var possibleNotes:Array<Note> = []; // notes that can be hit
-			var directionList:Array<Int> = []; // directions that can be hit
-			var dumbNotes:Array<Note> = []; // notes to kill later
-			var directionsAccounted:Array<Bool> = [false,false,false,false]; // we don't want to do judgments for more than one presses
+			var possibleNotes:Array<Note> = [];
+
+			var ignoreList:Array<Int> = [];
 
 			notes.forEachAlive(function(daNote:Note)
 			{
-				if (daNote.canBeHit && daNote.mustPress && !daNote.tooLate && !daNote.wasGoodHit)
+				if (daNote.canBeHit && daNote.mustPress && !daNote.tooLate && !daNote.wasGoodHit && !daNote.isSustainNote)
 				{
-					if (!directionsAccounted[daNote.noteData])
-					{
-						if (directionList.contains(daNote.noteData))
-						{
-							directionsAccounted[daNote.noteData] = true;
-							for (coolNote in possibleNotes)
-							{
-								if (coolNote.noteData == daNote.noteData && Math.abs(daNote.strumTime - coolNote.strumTime) < 10)
-								{ // if it's the same note twice at < 10ms distance, just delete it
-									// EXCEPT u cant delete it in this loop cuz it fucks with the collection lol
-									dumbNotes.push(daNote);
-									break;
-								}
-								else if (coolNote.noteData == daNote.noteData && daNote.strumTime < coolNote.strumTime)
-								{ // if daNote is earlier than existing note (coolNote), replace
-									possibleNotes.remove(coolNote);
-									possibleNotes.push(daNote);
-									break;
-								}
-							}
-						}
-						else
-						{
-							possibleNotes.push(daNote);
-							directionList.push(daNote.noteData);
-						}
-					}
+					possibleNotes.push(daNote);
 				}
 			});
 
-			for (note in dumbNotes)
-			{
-				FlxG.log.add("killing dumb ass note at " + note.strumTime);
-				note.kill();
-				notes.remove(note, true);
-				note.destroy();
-			}
+			possibleNotes.sort((a, b) -> Std.int(a.noteData - b.noteData)); //sorting twice is necessary as far as i know
+			haxe.ds.ArraySort.sort(possibleNotes, function(a, b):Int {
+				var notetypecompare:Int = Std.int(a.noteData - b.noteData);
 
-			possibleNotes.sort((a, b) -> Std.int(a.strumTime - b.strumTime));
-			var dontCheck = false;
-
-			for (i in 0...pressArray.length)
-			{
-				if (pressArray[i] && !directionList.contains(i))
-					dontCheck = true;
-			}
-
-			if (perfectMode)
-				goodNoteHit(possibleNotes[0]);
-			else if (possibleNotes.length > 0 && !dontCheck)
-			{
-				for (shit in 0...pressArray.length)
-				{ // if a direction is hit that shouldn't be
-					if (pressArray[shit] && !directionList.contains(shit))
-						noteMiss(shit, null);
-				}
-
-				for (coolNote in possibleNotes)
+				if (notetypecompare == 0)
 				{
-					if (pressArray[coolNote.noteData])
+					return Std.int(a.strumTime - b.strumTime);
+				}
+				return notetypecompare;
+			});
+
+			
+
+			if (possibleNotes.length > 0)
+			{
+				var daNote = possibleNotes[0];
+
+				// Jump notes
+				var lasthitnote:Int = -1;
+				var lasthitnotetime:Float = -1;
+
+				for (note in possibleNotes) 
+				{
+					if (controlArray[note.noteData % 4])
 					{
-						scoreTxt.color = FlxColor.WHITE;
-						goodNoteHit(coolNote);
+						if (lasthitnotetime > Conductor.songPosition - Conductor.safeZoneOffset
+							&& lasthitnotetime < Conductor.songPosition + (Conductor.safeZoneOffset * 0.2)) //reduce the past allowed barrier just so notes close together that aren't jacks dont cause missed inputs
+						{
+							if ((note.noteData % 4) == (lasthitnote % 4))
+							{
+								continue; //the jacks are too close together
+							}
+						}
+						lasthitnote = note.noteData;
+						lasthitnotetime = note.strumTime;
+						goodNoteHit(note);
 					}
+				}
+				
+				if (daNote.wasGoodHit)
+				{
+					daNote.kill();
+					notes.remove(daNote, true);
+					daNote.destroy();
 				}
 			}
 		}
 
-		notes.forEachAlive(function(daNote:Note)
+		if ((up || right || down || left) && generatedMusic)
 		{
-			if(daNote.y < strumLine.y)
+			notes.forEachAlive(function(daNote:Note)
 			{
-			}
-		});
+				if (daNote.canBeHit && daNote.mustPress && daNote.isSustainNote)
+				{
+					switch (daNote.noteData)
+					{
+						// NOTES YOU ARE HOLDING
+						case 2:
+							if (up || upHold)
+								goodNoteHit(daNote);
+						case 3:
+							if (right || rightHold)
+								goodNoteHit(daNote);
+						case 1:
+							if (down || downHold)
+								goodNoteHit(daNote);
+						case 0:
+							if (left || leftHold)
+								goodNoteHit(daNote);
+					}
+				}
+			});
+		}
 
-		if (boyfriend.holdTimer > Conductor.stepCrochet * 4 * 0.001 && (!holdArray.contains(true)))
+		if (boyfriend.holdTimer > Conductor.stepCrochet * 4 * 0.001 && !up && !down && !right && !left)
 		{
 			if (boyfriend.animation.curAnim.name.startsWith('sing') && !boyfriend.animation.curAnim.name.endsWith('miss'))
 			{
@@ -1756,11 +1738,40 @@ class PlayState extends MusicBeatState
 
 		playerStrums.forEach(function(spr:FlxSprite)
 		{
-			if (pressArray[spr.ID] && spr.animation.curAnim.name != 'confirm')
-				spr.animation.play('pressed');
-			if (!holdArray[spr.ID])
-				spr.animation.play('static');
-	
+			switch (spr.ID)
+			{
+				case 2:
+					if (upP && spr.animation.curAnim.name != 'confirm')
+					{
+						spr.animation.play('pressed');
+					}
+					if (upR)
+					{
+						spr.animation.play('static');
+					}
+				case 3:
+					if (rightP && spr.animation.curAnim.name != 'confirm')
+						spr.animation.play('pressed');
+					if (rightR)
+					{
+						spr.animation.play('static');
+					}
+				case 1:
+					if (downP && spr.animation.curAnim.name != 'confirm')
+						spr.animation.play('pressed');
+					if (downR)
+					{
+						spr.animation.play('static');
+					}
+				case 0:
+					if (leftP && spr.animation.curAnim.name != 'confirm')
+						spr.animation.play('pressed');
+					if (leftR)
+					{
+						spr.animation.play('static');
+					}
+			}
+
 			if (spr.animation.curAnim.name == 'confirm' && !curStage.startsWith('school'))
 			{
 				spr.centerOffsets();
@@ -1817,6 +1828,7 @@ class PlayState extends MusicBeatState
 			}
 		}
 	}
+
 	function noteCheck(controlArray:Array<Bool>, note:Note):Void
 	{
 		if (controlArray[note.noteData])
