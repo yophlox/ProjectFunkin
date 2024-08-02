@@ -1,12 +1,11 @@
 // TAKEN FROM DECOMPILED FUNKIN' SOURCE :D
 package backend.util;
 
-import funkin.util.Constants;
 import lime.app.Application;
 
 class Constants
 {
-    static public var TITLE = "Indev Engine;
+    static public var TITLE = "Indev Engine";
     static public var VERSION_SUFFIX = "BETA";
     static public var URL_MERCH = "https://needlejuicerecords.com/pages/friday-night-funkin";
     static public var URL_ITCH = "https://ninja-muffin24.itch.io/funkin/purchase";

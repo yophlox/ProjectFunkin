@@ -2,7 +2,7 @@
 <project>
 	<!-- _________________________ Application Settings _________________________ -->
 
-	<app title="Indev Engine" file="FunkinIndev" packageName="com.tydotcs.funkinindev" main="Main" version="0.2.7.1" company="tydotcs" />
+	<app title="Project Funkin'" file="ProjectFunkin" packageName="com.yophlox.funkin" main="Main" version="0.2.7.1" company="YoPhlox" />
 
 	<!--Switch Export with Unique ApplicationID and Icon-->
 	<set name="APP_ID" value="0x0100f6c013bbc000" />
@@ -10,14 +10,14 @@
 	<!--The flixel preloader is not accurate in Chrome. You can use it regularly if you embed the swf into a html file
 		or you can set the actual size of your file manually at "FlxPreloaderBase-onUpdate-bytesTotal"-->
 	<!-- <app preloader="Preloader" resizable="true" /> -->
-	<app preloader="backend.Preloader" />
+	<app preloader="flixel.system.FlxPreloader" />
 
 	<!--Minimum without FLX_NO_GAMEPAD: 11.8, without FLX_NO_NATIVE_CURSOR: 11.2-->
 	<set name="SWF_VERSION" value="11.8" />
 
 	<!-- ____________________________ Window Settings ___________________________ -->
 
-	<!--These window settings apply to all targets-->
+	<!--These window seattings apply to all targets-->
 	<window width="1280" height="720" fps="60" background="#000000" hardware="true" vsync="false" />
 
 	<!--HTML5-specific-->
@@ -40,18 +40,18 @@
 
 	<classpath name="source" />
 
-	<assets path="assets" rename="contents"/>
-	<assets path='example_mods' rename='mods' embed='false' exclude="*.md"/>
-	<!-- <template path='mods' /> -->
+	<assets path="assets/images" />
+	<assets path="assets/charts" />
 	
-	<!-- <library name="noPreload" preload='false'/> -->
-	<!-- <library name="noPreload"/> -->
 	<assets path="assets/music" include="*.mp3" if="web"/>
 	<assets path="assets/music" include="*.ogg" unless="web"/>
 	<assets path="assets/sounds" include="*.mp3" if="web" />
 	<assets path="assets/sounds" include="*.ogg" unless="web" />
 
-	<assets path="CHANGELOG.md" rename='changelog.txt'/>
+	<assets path="assets/characterList.txt" rename='assets/characterList.txt'/>
+	<assets path="assets/freeplaySonglist.txt" rename='assets/freeplaySonglist.txt'/>
+	<assets path="assets/introText.txt" rename='assets/introText.txt'/>
+
 
 	<!-- NOTE FOR FUTURE SELF SINCE FONTS ARE ALWAYS FUCKY 
 		TO FIX ONE OF THEM, I CONVERTED IT TO OTF. DUNNO IF YOU NEED TO
@@ -66,35 +66,18 @@
 
 	<!--In case you want to use the addons package-->
 	<haxelib name="flixel-addons" />
-	<haxelib name="polymod" />
-	<haxelib name="hscript" />
+	<haxelib name="hscript-improved"/>
 
 	<!--In case you want to use the ui package-->
 	<haxelib name="flixel-ui" />
-	<haxelib name="faxe" if='switch'/>
 
 	<!-- ______________________________ Haxedefines _____________________________ -->
 
-	<!--Enable the Flixel core recording system-->
-	<!--<haxedef name="FLX_RECORD" />-->
-
-	<!--Disable the right and middle mouse buttons-->
-	<!-- <haxedef name="FLX_NO_MOUSE_ADVANCED" /> -->
-
-	<!--Disable the native cursor API on Flash-->
-	<!--<haxedef name="FLX_NO_NATIVE_CURSOR" />-->
 
 	<!--Optimise inputs, be careful you will get null errors if you don't use conditionals in your game-->
 	<haxedef name="FLX_NO_MOUSE" if="mobile" />
 	<haxedef name="FLX_NO_KEYBOARD" if="mobile" />
 	<haxedef name="FLX_NO_TOUCH" if="desktop" />
-	<!--<haxedef name="FLX_NO_GAMEPAD" />-->
-
-	<!--Disable the Flixel core sound tray-->
-	<!--<haxedef name="FLX_NO_SOUND_TRAY" />-->
-
-	<!--Disable the Flixel sound management code-->
-	<!--<haxedef name="FLX_NO_SOUND_SYSTEM" />-->
 
 	<!--Disable the Flixel core focus lost screen-->
 	<haxedef name="FLX_NO_FOCUS_LOST_SCREEN" />
@@ -105,33 +88,11 @@
 	<!--Enable this for Nape release builds for a serious peformance improvement-->
 	<haxedef name="NAPE_RELEASE_BUILD" unless="debug" />
 
-	<!-- Options for Polymod -->
-	<section if="polymod">
-		<!-- Turns on additional debug logging. -->
-		<haxedef name="POLYMOD_DEBUG" value="true" if="debug" />
-		<!-- The file extension to use for script files. -->
-		<haxedef name="POLYMOD_SCRIPT_EXT" value=".hscript" />
-		<!-- Which asset library to use for scripts. -->
-		<haxedef name="POLYMOD_SCRIPT_LIBRARY" value="scripts" />
-		<!-- The base path from which scripts should be accessed. -->
-		<haxedef name="POLYMOD_ROOT_PATH" value="scripts/" />
-		<!-- Determines the precision required for mods to be compatible. -->
-		<haxedef name="POLYMOD_API_VERSION_MATCH" value="MATCH_MINOR" />
-		<!-- Determines the subdirectory of the mod folder used for file appending. -->
-		<haxedef name="POLYMOD_APPEND_FOLDER" value="_append" />
-		<!-- Determines the subdirectory of the mod folder used for file merges. -->
-		<haxedef name="POLYMOD_MERGE_FOLDER" value="_merge" />
-		<!-- Determines the file in the mod folder used for metadata. -->
-		<haxedef name="POLYMOD_MOD_METADATA_FILE" value="_polymod_meta.json" />
-		<!-- Determines the file in the mod folder used for the icon. -->
-		<haxedef name="POLYMOD_MOD_ICON_FILE" value="_polymod_icon.png" />
-	</section>
-
 	<!-- _________________________________ Custom _______________________________ -->
 
 	<!--Place custom nodes like icons here (higher priority to override the HaxeFlixel icon)-->
 	
-	<icon path="assets/icons/icon16.png" size='16'/>
-	<icon path="assets/icons/icon32.png" size='32'/>
-	<icon path="assets/icons/icon64.png" size='64'/>
+	<icon path="art/icon16.png" size='16'/>
+	<icon path="art/icon32.png" size='32'/>
+	<icon path="art/icon64.png" size='64'/>	
 </project>

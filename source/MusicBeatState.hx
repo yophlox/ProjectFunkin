@@ -1,6 +1,5 @@
 package;
 
-import Conductor.BPMChangeEvent;
 import flixel.FlxG;
 import flixel.addons.transition.FlxTransitionableState;
 import flixel.addons.ui.FlxUIState;
@@ -25,7 +24,7 @@ class MusicBeatState extends FlxUIState
 			trace('reg ' + transIn.region);
 
 		#if (!web)
-		game.states.TitleState.soundExt = '.ogg';
+		TitleState.soundExt = '.ogg';
 		#end
 
 		super.create();

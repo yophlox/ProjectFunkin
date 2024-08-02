@@ -56,9 +56,9 @@ class Paths
 
 	public static var dumpExclusions:Array<String> =
 	[
-		'contents/music/freakyMenu.$SOUND_EXT',
-		'contents/shared/music/breakfast.$SOUND_EXT',
-		'contents/shared/music/tea-time.$SOUND_EXT',
+		'assets/music/freakyMenu.$SOUND_EXT',
+		'assets/shared/music/breakfast.$SOUND_EXT',
+		'assets/shared/music/tea-time.$SOUND_EXT',
 	];
 	/// haya I love you for the base cache dump I took to the max
 	public static function clearUnusedMemory() {
@@ -147,13 +147,13 @@ class Paths
 
 	inline static function getLibraryPathForce(file:String, library:String)
 	{
-		var returnPath = '$library:contents/$library/$file';
+		var returnPath = '$library:assets/$library/$file';
 		return returnPath;
 	}
 
 	inline public static function getPreloadPath(file:String = '')
 	{
-		return 'contents/$file';
+		return 'assets/$file';
 	}
 
 	inline static public function file(file:String, type:AssetType = TEXT, ?library:String)
@@ -197,7 +197,7 @@ class Paths
 			return file;
 		}
 		#end
-		return 'contents/videos/$key.$VIDEO_EXT';
+		return 'assets/videos/$key.$VIDEO_EXT';
 	}
 
 	static public function sound(key:String, ?library:String):Sound
@@ -274,7 +274,7 @@ class Paths
 			return file;
 		}
 		#end
-		return 'contents/fonts/$key';
+		return 'assets/fonts/$key';
 	}
 
 	inline static public function fileExists(key:String, type:AssetType, ?ignoreMods:Bool = false, ?library:String)

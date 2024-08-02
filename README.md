@@ -21,8 +21,6 @@ I legit don't have any plans for this engine, I'm just adding whatever comes to 
 
 * [Funkin' Crew](https://twitter.com/FNF_Developers) - Original Game, Results BF & GF Assets and Offsets, Speaker thing in Results BG, Preloader
 
-* [Ji-Rath](https://github.com/Ji-Rath) - Polymod asset replacement fix
-
 # Friday Night Funkin
 
 This is the repository for Friday Night Funkin, a game originally made for Ludum Dare 47 "Stuck In a Loop".
