@@ -16,7 +16,7 @@ I legit don't have any plans for this engine, I'm just adding whatever comes to 
 
 # CREDS - (I'LL BE CREDITING ALMOST EVERYTHING I ADD)
 
-* [Ty (me!)](https://twitter.com/tydotcs) - Project Funkin' Engine, FX Engine (I'm pulling some stuff from it), Results Screen Recreation, Custom Song Support (pulled from my w.i.p project YA4KRG)
+* [Ty (me!)](https://twitter.com/tydotcs) - Project Funkin' Engine, FX Engine (I'm pulling some stuff from it), Results Screen Recreation, Custom Song Support (pulled from my w.i.p project YA4KRG), and HScript support
 
 * [HiroNG](https://twitter.com/skadoobep) - Modified BG for Results screen
 
