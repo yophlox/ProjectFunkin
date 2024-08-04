@@ -1,6 +1,6 @@
-# Project Funkin' (LEGACY)
+# Project Funkin'
 
-Check out the new version [here!](https://github.com/yophlox/Project-Funkin)
+A Friday Night Funkin' Engine, idk what else to put here lol
 
 # ADDITIONS
 
