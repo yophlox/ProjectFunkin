@@ -1,7 +1,6 @@
-# [INDEV] Engine!
+# Project Funkin' (LEGACY)
 
-A Friday Night Funkin' Engine that's well uh in development lol (I didn't know what to name the engine, I'm uncreative)
-I legit don't have any plans for this engine, I'm just adding whatever comes to mind.
+Check out the new version [here!](https://github.com/yophlox/Project-Funkin)
 
 # ADDITIONS
 
