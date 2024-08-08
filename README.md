@@ -2,6 +2,8 @@
 
 A Friday Night Funkin' Engine, idk what else to put here lol
 
+Won't be worked on a lot cuz I'm starting back development on [FX Engine](https://github.com/yophlox/FX-Engine/tree/main)
+
 # ADDITIONS
 
 * Restored the original Preloader! (and fixed it a bit!)
