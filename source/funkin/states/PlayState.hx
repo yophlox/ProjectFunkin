@@ -721,7 +721,7 @@ class PlayState extends MusicBeatState
 		lastReportedPlayheadPosition = 0;
 
 		if (!paused)
-			FlxG.sound.playMusic(Util.getSongInst(SONG.song));
+			FlxG.sound.playMusic(Paths.inst(SONG.song));
 		FlxG.sound.music.onComplete = endSong;
 		vocals.play();
 	}
@@ -738,7 +738,7 @@ class PlayState extends MusicBeatState
 		curSong = songData.song;
 
 		if (SONG.needsVoices)
-			vocals = new FlxSound().loadEmbedded(Util.getSongVocals(SONG.song));
+			FlxG.sound.playMusic(Paths.voices(SONG.song));
 		else
 			vocals = new FlxSound();
 
