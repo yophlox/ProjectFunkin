@@ -1,4 +1,4 @@
-echo Make sure you have Haxe installed or this won't work!
+echo Make sure you have Haxe installed or this will not work!
 echo Installing needed libs for Indev Engine!
 haxelib install lime 7.9.0
 haxelib install openfl
